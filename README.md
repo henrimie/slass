@@ -2,17 +2,17 @@
     <sup><strong>short: acsiam</br>
 	  Tested on Ubuntu 16.04 (Xenial)</br>
     </br>
-    Based on seelenlos's <a href="https://github.com/joka-de/slass">Arma 3 server script</a>
+    Based on seelenlos's <a target="_blank" href="https://github.com/joka-de/slass">Arma 3 server script</a>
     </strong></sup></p>
 
 *License:* GNU GPLv3
 
 ## General
-This script will greatly ease the installation and management of an <a href="http://www.a3antistasi.com/mod">Arma3 Antistasi</a> server including required mods from the Steam workshop.</br></br>It is not a one-click-get-a-server script. Read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.
+This script will greatly ease the installation and management of an <a target="_blank" href="http://www.a3antistasi.com/mod">Arma3 Antistasi</a> server including required mods from the Steam workshop.</br></br>It is not a one-click-get-a-server script. Read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.
 
 ## What it does
 The acsiam Arma 3 Antistasi Server Script
-- installs one arma3 server instance and three <a href="https://community.bistudio.com/wiki/Arma_3_Headless_Client">arma3 headless client</a> instances on Linux
+- installs one arma3 server instance and three <a target="_blank" href="https://community.bistudio.com/wiki/Arma_3_Headless_Client">arma3 headless client</a> instances on Linux
 - saves precious storage by using symlinks (about the space for one installation is needed)
 - implements the instances as services in the OS
 - restarts the servers if they crash
@@ -38,7 +38,7 @@ All instances will share</br>
 
 **What happens on installation**
 You begin by putting the script folder **installer** into an arbitrary folder on your system (ie. /srv/arma3). Upon start, the script will then establish an Arma3 installation inside that arbitrary folder. Depending on you installation path, it will build individual config and script files for your server, headless clients, install steamcmd, set the required file ownerships and rights, and install the servers as a system service. The installation finishes with an update of Arma3 and the mods.
-Refer to the file **doc/folder_struc.png** for a general overview where to find the files and what they do (original <a href="https://github.com/joka-de/slass">slaas</a> folder structure, doesn't have acsiam modifications).
+Refer to the file **doc/folder_struc.png** for a general overview where to find the files and what they do (original <a target="_blank" href="https://github.com/joka-de/slass">slaas</a> folder structure, doesn't have acsiam modifications).
 
 **What happens on update**
 File ownership in a3master will be reset to avoid issues from remote upload of mission files etc. The server and headless client instances are then stopped, and an update (or install, if not already there) of Arma3 and the mods is performed. After the update, the file rights in a3master are reset, all mods are renamed to lower case (avoids issues with crashing mods on linux) and the folders of the instances are cleared and rebuild. Finally, the sever and headless clients are booted back up.
