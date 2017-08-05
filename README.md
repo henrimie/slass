@@ -1,42 +1,33 @@
 <p align="center">
-    <img src="https://github.com/joka-de/slass/raw/master/doc/logo.png" width="640">
-</p>
-
-<p align="center">
-    <sup><strong>short: slass</br>
-	Tested on Ubuntu 16.04 (Xenial)</br>
-    Visit us on TS3: ts3.seelenlos.eu?port=9987 | <a href="http://arma.seelenlos.eu">seelenlos.eu</a> | <a href="https://units.arma3.com/unit/seelenlos">seelenlos on Steam</a></br>
-	(c)2017 by seelenlos</strong></sup></p>
+    <sup><strong>short: acsiam</br>
+	  Tested on Ubuntu 16.04 (Xenial)</br>
+    </br>
+    Based on seelenlos's <a href="https://github.com/joka-de/slass">Arma 3 server script</a>
+    </strong></sup></p>
 
 *License:* GNU GPLv3
 
 ## General
-This script will greatly ease the installation and management of three Arma3 servers including mods from the Steam workshop.</br></br>It is not a one-click-get-a-server script. Read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.
+This script will greatly ease the installation and management of an <a href="http://www.a3antistasi.com/mod">Arma3 Antistasi</a> server including required mods from the Steam workshop.</br></br>It is not a one-click-get-a-server script. Read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.
 
 ## What it does
-The seelenlos Arma 3 Server Script
-- installs three arma3 server instances on Linux
+The acsiam Arma 3 Antistasi Server Script
+- installs one arma3 server instance and three <a href="https://community.bistudio.com/wiki/Arma_3_Headless_Client">arma3 headless client</a> instances on Linux
 - saves precious storage by using symlinks (about the space for one installation is needed)
 - implements the instances as services in the OS
 - restarts the servers if they crash
 - provides diagnostic commands on the running servers
 - installs Arma3 mods from the workshop
-- provides a central config file where you can specify an individual mod set for each server
+- provides a central config file where you can specify an mod set
 - differentiates between mod, servermod, and clientmod
-- manages the *.bikey files in dependency of the loaded mods for each server instance
-- provides a central mission repository for all instances
-- creates meaningful servernames for the server browser depending on the loaded mods
+- manages the *.bikey files in dependency of the loaded mods
 - reconfigures the servers upon each restart according to the config files
 - can be used to update Arma3 and the mods by a single command
 - provides a simple way to have an almighty admin and a maintance user, who can update/install mods, and add missions, but not fumble around in the important scripts
 
 ## How it works
 **Basic Structure**
-The script will generate a master installation (a3master), that will never be started. Using symlinks, it will build three server instances out of this master installation. The instances are later run as a system service (SysVInit). The whole set of server files, including the mission repository (mpmissions folder) and *.Arma3Profile is being shared among the instances, but the instances use individual config files. A script will manage the mods and their keys to load for each server instance.
-Individually for each instance you can set:
-- (part of) the config file
-- the mods to use including their keys
-- the servername</br>
+The script will generate a master installation (a3master), that will never be started. Using symlinks, it will build one server instance and three headless client instances out of this master installation. The instances are later run as a system service (SysVInit). The whole set of server files, including the mission repository (mpmissions folder) and *.Arma3Profile is being shared among the instances, but the instances use individual config files. A script will manage the mods and their keys to load.</br>
 
 All instances will share</br>
 
@@ -46,11 +37,11 @@ All instances will share</br>
 - a common logfile folder
 
 **What happens on installation**
-You begin by putting the script folder **installer** into an arbitrary folder on your system. Upon start, the script will then establish an Arma3 installation inside that arbitrary folder. Depending on you installation path, it will build individual config and script files for your server, install steamcmd, set the required file ownerships and rights, and install the servers as a system service. The installation finishes with an update of Arma3 and the mods.
-Refer to the file **doc/folder_struc.png** for a general overview where to find the files and what they do.
+You begin by putting the script folder **installer** into an arbitrary folder on your system (ie. /srv/arma3). Upon start, the script will then establish an Arma3 installation inside that arbitrary folder. Depending on you installation path, it will build individual config and script files for your server, headless clients, install steamcmd, set the required file ownerships and rights, and install the servers as a system service. The installation finishes with an update of Arma3 and the mods.
+Refer to the file **doc/folder_struc.png** for a general overview where to find the files and what they do (original <a href="https://github.com/joka-de/slass">slaas</a> folder structure, doesn't have acsiam modifications).
 
 **What happens on update**
-File ownership in a3master will be reset to avoid issues from remote upload of mission files etc. The server instances are then stopped, and an update (or install, if not already there) of Arma3 and the mods is performed. After the update, the file rights in a3master are reset, all mods are renamed to lower case (avoids issues with crashing mods on linux) and the folders of the instances are cleared and rebuild. Finally, the severs are booted back up.
+File ownership in a3master will be reset to avoid issues from remote upload of mission files etc. The server and headless client instances are then stopped, and an update (or install, if not already there) of Arma3 and the mods is performed. After the update, the file rights in a3master are reset, all mods are renamed to lower case (avoids issues with crashing mods on linux) and the folders of the instances are cleared and rebuild. Finally, the sever and headless clients are booted back up.
 
 **What happens on start/restart**
 On start, all config files are newly read in to consider possible config edits. The config file **modlist.inp** defines the mods to load, individually for each instance. Depending on that config, the server name and the startup options (-mods= ) are build. Then the script will generate the config file for the respective instance, and copy the individually needed set of **.bikey - files** into its **keys** folder. Logfiles older than {deldays} **(servervars.cfg)** will be deleted, a new logfile will be written. Afterwards, the instance will boot, being monitored by a watchdog process. The watchdog reboots the server if it crashes. The watchdog is also active if the server stopped externally, i.e. you can issue the #shutdown command ingame to read an updated server config.
