@@ -1,4 +1,10 @@
-cba_a3		450814997	mod	0 1 1 CBA
-slmd		506841608	smod	1 1 1 xx
-slt		503315867	cmod	0 1 1 SLT
-slz		647452409	smod	1 1 1 xx
+cba_a3          450814997       mod     1 1 1 1
+rhsafrf         843425103       mod     1 1 1 1
+rhsusaf         843577117       mod     1 1 1 1
+rhsgref         843593391       mod     1 1 1 1
+rhssaf          843632231       mod     1 1 1 1
+ace             463939057       mod     1 1 1 1
+ace_server      local           smod    1 0 0 0
+ace_comp_rhsaf  773131200       smod    1 1 1 1
+ace_comp_rhsus  773125288       smod    1 1 1 1
+ace_comp_rhsgf  884966711       smod    1 1 1 1

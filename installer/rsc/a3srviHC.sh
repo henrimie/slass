@@ -15,6 +15,8 @@ runfile=${arma_dir}/${port}.run
 logfile=${log_dir}/${name}_$(date +%Y-%m-%d_%H:%M:%S).log
 server=${arma_dir}/arma3server
 
+hcprofile=${profile}hc${serverid}
+
 #=======================================================================
 ulimit -c 1000000
 #
@@ -102,7 +104,7 @@ while [ -f ${runfile} ]; do
 cd ${arma_dir}
 echo >>${logfile} "watchdog ($$): [$(date)] starting server (port ${port})..."
 #
-sudo -u ${username} ${server} >>${logfile} 2>&1 -filepatching -config=${config} -cfg=${cfg} -port=${port} -name=${profile} ${otherparams} -mod=${mods} -servermod=${servermods} &
+sudo -u ${username} ${server} >>${logfile} 2>&1 -client -connect=127.0.0.1 -password= -port=${port} -profiles=${hcprofile} -mod=${mods} ${servermods} &
 pid=$!
 echo $pid > $pidfile
 chmod 664 $logfile
