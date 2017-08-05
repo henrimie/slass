@@ -78,7 +78,7 @@ On start, all config files are newly read in to consider possible config edits. 
 		**cmod** if the mod is only to be loaded client side (only mod is loaded), e.g. JSRS</br>
 		**smod** if the mod is only to be loaded by the server (only key is loaded), e.g. ace_server</br>
 	IV. to VI. contains a binary key 0/1 selecting if the mod is to be loaded on server #1/#2/#3</br>
-	VII. is the name of the mod included in the servername for the server browser; Type "xx" if do not want the mod to appear in the server browser; see also the example file in **./installer/optrsc/**
+	VII. is the name of the mod included in the servername for the server browser; Type "xx" if do not want the mod to appear in the server browser.
 - Make sure that you have the steam login of a user with arma3 and the mods being stated in "modlist.inp" subscribed at hand.
 
 **3. Start Installation**
