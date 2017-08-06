@@ -48,14 +48,6 @@ Updating Arma 3...
 "
 # update game
 ${steamdir}/steamcmd.sh +login $user $pw +runscript ${a3instdir}/scripts/a3gameupdate.steam
-
-echo -n"
-Enter two-factor authentication token if applicable,
-if not leave empty and press enter.
-
-Two-factor token:
-"
-
 rm -f ${a3instdir}/scripts/a3gameupdate.steam
 
 echo -n "
@@ -63,14 +55,6 @@ Updating mods...
 "
 # update workshop mods
 ${steamdir}/steamcmd.sh +login $user $pw +runscript ${a3instdir}/scripts/a3modupdate.steam
-
-echo -n"
-Enter two-factor authentication token if applicable,
-if not leave empty and press enter.
-
-Two-factor token:
-"
-
 rm -f ${a3instdir}/scripts/a3modupdate.steam
 
 # (re)make symlinks to the mods

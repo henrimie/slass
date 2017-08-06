@@ -200,7 +200,7 @@ exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
 
 # request download
 echo -n "Installation is now prepared. You may want to add the line
-%${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-3] *, ${a3instdir}/scripts/runupdate.sh
+%${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
 to sudoers with the visudo command after the download. Consider reading the wiki/manpage on visudo beforehand.
 
 If you choose to abort now, you can still continue later by running the A3-update script.
@@ -220,7 +220,7 @@ Downloading and installing Antistasi mission...
 cd $a3instdir
 sudo -u $useradm wget -nv $antistasi_download_url
 antistasirar=${antistasi_download_url##*/}
-sudo -u $useradm unrar -x $antistasirar
+sudo -u $useradm unrar x $antistasirar
 antistasimission=${antistasirar%.rar}.pbo
 sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
 sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
