@@ -170,6 +170,7 @@ Installing steam and requirements...
 # install steamcmd
 sudo apt install lib32gcc1
 sudo apt install lib32stdc++6
+sudo apt install unrar
 cd $a3instdir/steamcmd
 sudo -u $useradm wget -nv http://media.steampowered.com/installer/steamcmd_linux.tar.gz
 sudo -u $useradm tar -xvzf steamcmd_linux.tar.gz
@@ -211,5 +212,22 @@ fi
 
 # install A3
 sudo -iu $useradm ${a3instdir}/scripts/a3update.sh
+
+echo -n "
+Downloading and installing Antistasi mission...
+"
+# download and install Antistasi mission
+cd $a3instdir
+sudo -u $useradm wget -nv $antistasi_download_url
+antistasirar=${antistasi_download_url##*/}
+sudo -u $useradm unrar -x $antistasirar
+antistasimission=${antistasirar%.rar}.pbo
+sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
+sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
+sudo -u $useradm rm -f ${a3instdir}/${antistasirar}
+
+echo -n "
+ - ALL DONE
+"
 
 exit 0

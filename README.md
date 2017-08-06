@@ -38,7 +38,7 @@ All instances will share</br>
 - a common logfile folder
 
 **What happens on installation**
-You begin by putting the script folder **installer** into an arbitrary folder on your system (ie. /srv/arma3). Upon start, the script will then establish an Arma3 installation inside that arbitrary folder. Depending on you installation path, it will build individual config and script files for your server, headless clients, install steamcmd, set the required file ownerships and rights, and install the servers as a system service. The installation finishes with an update of Arma3 and the mods.
+You begin by putting the script folder **installer** into an arbitrary folder on your system (ie. /srv/arma3). Upon start, the script will then establish an Arma3 installation inside that arbitrary folder. Depending on you installation path, it will build individual config and script files for your server, headless clients, install steamcmd, set the required file ownerships and rights, and install the servers as a system service. The installation finishes with an update of Arma3 and the mods. Lastly the installation donwloads a copy of Antistasi and copies it over to the mission repository.
 Refer to the file **doc/folder_struc.png** for a general overview where to find the files and what they do (original <a target="_blank" href="https://github.com/joka-de/slass">slaas</a> folder structure, doesn't have acsiam modifications).
 
 **What happens on update**
@@ -55,24 +55,26 @@ On start, all config files are newly read in to consider possible config edits. 
 - copy the script folder "installer" in that folder, e.g. **/srv/arma3/installer**
 - open the file install.cfg inside the folder "installer", change the user informations therein to your wishes. The users can be created by the script, or manually before you start the installation; refer to the commands in **./installer/adddelusr.sh** on how to do so. They will have the following functions</br>
 -- **useradm** - Is owner of the files in the server folder, can add/delete/modify files and manage servers. You can use your normal user account with sudo privileges for this. Make sure he is in **grpserver** (see below).</br>
--- **userlnch** - Is the owner of the server process once fired up. For security reasons, he should not be able to get a shell nor become root.</br></br>	*Use strong Passwords for both users anyway, never hand them out! A server with web access is not a toy!*</br></br>**grpserver** - a user group in which both preceding noted users must be, preferably as initial-group. Add additional users to that group, to allow them to make basic maintenance of the gameserver (update, mod/mission install, restart, cfg changes)
+-- **userlnch** - Is the owner of the server process once fired up. For security reasons, he should not be able to get a shell nor become root.
+</br></br>*Use strong Passwords for both users anyway, never hand them out! A server with web access is not a toy!*</br></br>
+-- **grpserver** - a user group in which both preceding noted users must be, preferably as initial-group. Add additional users to that group, to allow them to make basic maintenance of the gameserver (update, mod/mission install, restart, cfg changes)
+-- **antistasi_download_url** - URL to use to download Antistasi. Check latest from <a target="_blank" href="http://www.a3antistasi.com/mod">http://www.a3antistasi.com/mod</a>
 - prepare the server config files in **./installer/rsc**</br>
 **a3common.cfg** - master config file containing settings common for all server instances.</br>
-**a3inidi.cfg** - template config file containing individual settings for each server instance. After installation, three individual copies of this file will exist, edit them if needed.</br>
+**a3indi.cfg** - template config file containing individual settings for each server instance. After installation, four individual copies of this file will exist, edit them if needed.</br>
 **basic.cfg** - loaded as -cfg file by the server process</br>
 **profile.Arma3Profile** - the Arma3Profile of the Server, set difficulty there</br>
-**prepserv.sh** - defines the server names, among other stuff. Edit the entry **hostname_base="Generic Arma3"** and the entrys **" hostname id1=' Server 1 |' "** to **" hostname id3=' Server 3 |' "** to your wishes. The final server name will be composed as</br>
-**Hostname_base+hostname_idx+Modlist**, e.g. **"Generic Arma3 Server 1 | SLT, ACE"**</br>Edit more of the file to break it ...
-- determine the mods to install, to do so edit **./installer/rsc/modlist.inp** . The file has seven columns:</br>
+**prepserv.sh** - defines the server name, among other stuff. Edit the entry **hostname_base="Generic Arma3"** and the entry **" hostname id1=' Antistasi Altis' to your wishes. The final server name will be composed as</br>
+**Hostname_base+hostname_id1**, e.g. **"Generic Arma3 Antistasi Altis"**</br>Don't edit more of the file or you will break it...
+- determine the mods to install (not necessary by default), to do so edit **./installer/rsc/modlist.inp** . The file has seven columns:</br>
 	I. shortname of the mod</br>
 	II. steam-app-id of the mod; if the mod is not in the workshop, insert the word **local**</br>
  	III. mod type; use</br>
 		**mod** if the mod is to be loaded by server and client (key and mod is loaded), e.g. ACE</br>
 		**cmod** if the mod is only to be loaded client side (only mod is loaded), e.g. JSRS</br>
 		**smod** if the mod is only to be loaded by the server (only key is loaded), e.g. ace_server</br>
-	IV. to VI. contains a binary key 0/1 selecting if the mod is to be loaded on server #1/#2/#3</br>
-	VII. is the name of the mod included in the servername for the server browser; Type "xx" if do not want the mod to appear in the server browser.
-- Make sure that you have the steam login of a user with arma3 and the mods being stated in "modlist.inp" subscribed at hand.
+	IV. to VII. contains a binary key 0/1 selecting if the mod is to be loaded on server or headless client #1(server)/#2(hc)/#3(hc)/#4(hc)</br>
+- Make sure that you have the steam login of a user with arma3 purchased and the mods being stated in "modlist.inp" subscribed at hand.
 
 **3. Start Installation**
 - ensure the file **./installer/a3install.sh** is executable for your current user (chown , chmod 744)
