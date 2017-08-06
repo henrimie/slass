@@ -156,7 +156,7 @@ sudo chmod 750 /etc/init.d/a3srv${index}
 sudo bash -c "echo \"#!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          a3srv${index}\" >> /etc/init.d/a3srv${index}"
-sudo bash -c "cat ${a3instdir}/installer/rsc/a3srviHC.init >> /etc/init.d/a3srv${index}"
+sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
 sudo bash -c "echo \"serverid=${index}
 basepath=${a3instdir}
 . ${a3instdir}/scripts/service/a3srviHC.sh\" >> /etc/init.d/a3srv${index}"
