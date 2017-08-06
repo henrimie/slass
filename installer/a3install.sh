@@ -47,7 +47,7 @@ fi
 
 echo -n "
 Basic modlist:
-CBA_A3, RHSAFRF, RHSUSAF, RHSGREF, RHSSAF, ace, ACE Compat - RHSAFRF,
+Antistasi Altis, CBA_A3, RHSAFRF, RHSUSAF, RHSGREF, RHSSAF, ace, ACE Compat - RHSAFRF,
 ACE Compat - RHSUSAF, ACE Compat - RHSGREF
 
 Extended modlist (inludes basic modlist):
