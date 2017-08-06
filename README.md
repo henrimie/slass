@@ -26,6 +26,7 @@ The acsiam Arma 3 Antistasi Server Script
 - provides a simple way to have an almighty admin and a maintance user, who can update/install mods, and add missions, but not fumble around in the important scripts
 
 ## How it works
+
 **Basic Structure**
 The script will generate a master installation (a3master), that will never be started. Using symlinks, it will build one server instance and three headless client instances out of this master installation. The instances are later run as a system service (SysVInit). The whole set of server files, including the mission repository (mpmissions folder) and *.Arma3Profile is being shared among the instances, but the instances use individual config files. A script will manage the mods and their keys to load.</br>
 
@@ -44,8 +45,9 @@ Refer to the file **doc/folder_struc.png** for a general overview where to find 
 File ownership in a3master will be reset to avoid issues from remote upload of mission files etc. The server and headless client instances are then stopped, and an update (or install, if not already there) of Arma3 and the mods is performed. After the update, the file rights in a3master are reset, all mods are renamed to lower case (avoids issues with crashing mods on linux) and the folders of the instances are cleared and rebuild. Finally, the sever and headless clients are booted back up.
 
 **What happens on start/restart**
-On start, all config files are newly read in to consider possible config edits. The config file **modlist.inp** defines the mods to load, individually for each instance. Depending on that config, the server name and the startup options (-mods= ) are build. Then the script will generate the config file for the respective instance, and copy the individually needed set of **.bikey - files** into its **keys** folder. Logfiles older than {deldays} **(servervars.cfg)** will be deleted, a new logfile will be written. Afterwards, the instance will boot, being monitored by a watchdog process. The watchdog reboots the server if it crashes. The watchdog is also active if the server stopped externally, i.e. you can issue the #shutdown command ingame to read an updated server config.
-##Installation
+On start, all config files are newly read in to consider possible config edits. The config file **modlist.inp** defines the mods to load, pre-configured by the installer for Antistasi experience (you can choose the basic set or the extended set with audio and visual mods supported by antistasi). Depending on that config the startup options are build. Then the script will generate the config file for the respective instance, and copy the individually needed set of **.bikey - files** into its **keys** folder. Logfiles older than {deldays} **(servervars.cfg)** will be deleted, a new logfile will be written. Afterwards, the instance will boot, being monitored by a watchdog process. The watchdog reboots the server if it crashes. The watchdog is also active if the server stopped externally, i.e. you can issue the #shutdown command ingame to read an updated server config.
+
+## Installation
 
 **1. Prerequisites**
 - ensure you have the root password for your machine at hand
