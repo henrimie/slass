@@ -1,3 +1,5 @@
+antistasi_download_url=$1
+
 # duplex output to log
 exec &> >(tee ${a3instdir}/scripts/logs/a3update.log)
 
