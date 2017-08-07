@@ -83,5 +83,4 @@ while read line; do
 			#echo " ... ${appname}-key on server #${serverid}"
 			ln -sf ${basepath}/a3master/_mods/@${appname}/*key*/*.bikey ${basepath}/a3srv${serverid}/keys/
     fi
-	fi
 done < ${basepath}/scripts/modlist.inp
