@@ -198,13 +198,20 @@ sudo -iu ${useradm} ${a3instdir}/scripts/a3update.sh
 fi
 exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
 
-# request download
-echo -n "Installation is now prepared. You may want to add the line
+sudo bash -c "echo \"
 %${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
-to sudoers with the visudo command after the download. Consider reading the wiki/manpage on visudo beforehand.
+\" >> /etc/sudoers"
+
+# request download
+echo -n "Installation is now prepared.
 
 If you choose to abort now, you can still continue later by running the A3-update script.
 Begin download of A3? (y/n)?"
+
+#You may want to add the line
+#%${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
+#to sudoers with the visudo command after the download. Consider reading the wiki/manpage on visudo beforehand.
+
 read goinst
 if [ $goinst != "y" ]; then
         exit 0
