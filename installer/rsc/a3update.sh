@@ -1,4 +1,5 @@
-antistasi_download_url=$1
+useradm=$1
+antistasi_download_url=$2
 
 # duplex output to log
 exec &> >(tee ${a3instdir}/scripts/logs/a3update.log)
