@@ -68,6 +68,21 @@ while read line; do
   fi
 done < ${a3instdir}/scripts/modlist.inp
 
+if [[ $antistasi_download_url ]] then
+  echo -n "
+Downloading and installing Antistasi mission...
+"
+  # download and install Antistasi mission
+  cd $a3instdir
+  sudo -u $useradm wget -nv $antistasi_download_url
+  antistasirar=${antistasi_download_url##*/}
+  sudo -u $useradm unrar x $antistasirar
+  antistasimission=${antistasirar%.rar}.pbo
+  sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
+  sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
+  sudo -u $useradm rm -f ${a3instdir}/${antistasirar}
+fi
+
 # reset the file rights in a3master
 echo -n "... reseting the file rights in a3master"
 find -L $a3instdir/a3master -type d -exec chmod 775 {} \;
