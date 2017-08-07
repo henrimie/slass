@@ -232,6 +232,7 @@ antistasimission=${antistasirar%.rar}.pbo
 sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
 sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
 sudo -u $useradm rm -f ${a3instdir}/${antistasirar}
+sudo service a3srv1 restart
 
 echo -n "
  - ALL DONE
