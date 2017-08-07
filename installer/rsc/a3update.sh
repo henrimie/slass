@@ -68,7 +68,7 @@ while read line; do
   fi
 done < ${a3instdir}/scripts/modlist.inp
 
-if [[ $antistasi_download_url ]] then
+if [[ $antistasi_download_url ]]; then
   echo -n "
 Downloading and installing Antistasi mission...
 "
