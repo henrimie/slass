@@ -247,7 +247,7 @@ if [ $goinst != "y" ]; then
 fi
 
 # install A3
-sudo -iu $useradm ${a3instdir}/scripts/a3update.sh $useradm $antistasi_download_url
+sudo -iu $useradm ${a3instdir}/scripts/a3update.sh $antistasi_download_url
 
 echo -n "
  - ALL DONE
