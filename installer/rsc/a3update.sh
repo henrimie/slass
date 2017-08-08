@@ -25,6 +25,14 @@ for index in $(seq 4); do
 done
 echo $' - DONE\n'
 
+echo -n "
+If you use two-factor authentication this script will pause at: login USERNAME ----,
+this is when you should input your two-factor token and press enter.
+
+The script will pause for the two-factor token** once for the game install and
+once for the mods.
+"
+
 # build steam script file - game
 tmpfile=$(mktemp)
 echo "@ShutdownOnFailedCommand 1
