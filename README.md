@@ -8,6 +8,8 @@
 
 <p align="center">License: GNU GPLv3</p>
 
+<p align="center"><a target="_blank" href="https://github.com/henrimie/acsiam/releases/">Download latest version.</a></p>
+
 ## General
 This script will greatly ease the installation and management of an <a target="_blank" href="http://www.a3antistasi.com/mod">Arma3 Antistasi</a> server including required mods from the Steam workshop.</br></br>It is not a one-click-get-a-server script. Read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.
 
