@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set this to "y" to avoid deletion of downloaded data (arma3 and steamcmd)
+debug="n"
+
 # get install path
 a3instdir=$(dirname "$(readlink -f "$0")")
 a3instdir=${a3instdir%/installer}
@@ -23,13 +26,18 @@ both being in group: $grpserver
 Modify ./install.cfg to change the above.
 
 The script will OVERWRITE existing folders in the installation directory,
-and you will be asked by the script for the 'sudo' password.
+and you may be asked for the 'sudo' password by the script.
 
 Do you want to continue? (y/n)"
 
 read goinst
 if [ $goinst != "y" ]; then
 	exit 0
+fi
+
+if [ $debug == "y"  ]; then
+	echo "---Debug mode is ON----"
+	sleep 1
 fi
 
 # scripted user management
@@ -64,26 +72,34 @@ Building filestructure...
 # build basic folder structure
 sudo chown ${useradm}:${grpserver} $a3instdir
 sudo -u $useradm chmod 775 $a3instdir
-# debug line
-#for folder in "scripts" "steamcmd"; do
-for folder in "scripts" "a3master" "steamcmd"; do
+
+if [ $debug == "y"  ]; then
+ list=("scripts")
+else
+ list=("scripts" "a3master" "steamcmd")
+fi
+
+for folder in "${list[@]}"; do
 if [ -d "${a3instdir}/${folder}" ]; then
-	sudo -u $useradm rm -rf $a3instdir/$folder
+	sudo rm -rf $a3instdir/$folder
 fi
 	sudo -u $useradm mkdir $a3instdir/$folder --mode=775
 done
 
 #debug lines to clear a3master, but not downloaded content
-#sudo -u $useradm rm -rf ${a3instdir}/a3master/_mods
-#sudo -u $useradm rm -rf ${a3instdir}/a3master/cfg
-#sudo -u $useradm rm -rf ${a3instdir}/a3master/log
-#sudo -u $useradm rm -rf ${a3instdir}/a3master/userconfig/
+if [ $debug == "y"  ]; then
+	sudo rm -rf ${a3instdir}/a3master/_mods
+	sudo rm -rf ${a3instdir}/a3master/cfg
+	sudo rm -rf ${a3instdir}/a3master/log
+	sudo rm -rf ${a3instdir}/a3master/userconfig/
+fi
 
 sudo -u $useradm mkdir ${a3instdir}/scripts/service --mode=754
 sudo -u $useradm mkdir ${a3instdir}/a3master/_mods --mode=775
 sudo -u $useradm mkdir ${a3instdir}/a3master/cfg --mode=775
 sudo -u $useradm mkdir ${a3instdir}/a3master/log --mode=775
 sudo -u $useradm mkdir ${a3instdir}/scripts/logs --mode=775
+sudo -u $useradm mkdir ${a3instdir}/a3master/userconfig --mode=775
 
 # copy files
 sudo -u $useradm cp ${a3instdir}/installer/rsc/servervars.cfg ${a3instdir}/scripts/service/
@@ -168,21 +184,29 @@ echo -n "
 Installing steam and requirements...
 "
 # install steamcmd
-sudo apt-get install lib32gcc1
-sudo apt-get install lib32stdc++6
 sudo apt-get install unrar
-cd $a3instdir/steamcmd
-sudo -u $useradm wget -nv http://media.steampowered.com/installer/steamcmd_linux.tar.gz
-sudo -u $useradm tar -xvzf steamcmd_linux.tar.gz
-sudo -iu $useradm ${a3instdir}/steamcmd/steamcmd.sh +runscript ${a3instdir}/installer/rsc/update.steam
-sudo -u $useradm rm -f ${a3instdir}/steamcmd/steamcmd_linux.tar.gz
-echo "--- SteamCMD was installed and is up to date!"
+
+if [ $debug != "y"  ]; then
+	sudo apt-get install lib32gcc1
+	sudo apt-get install lib32stdc++6
+	cd $a3instdir/steamcmd
+	sudo -u $useradm wget -nv http://media.steampowered.com/installer/steamcmd_linux.tar.gz
+	sudo -u $useradm tar -xvzf steamcmd_linux.tar.gz
+	sudo -iu $useradm ${a3instdir}/steamcmd/steamcmd.sh +runscript ${a3instdir}/installer/rsc/update.steam
+	sudo -u $useradm rm -f ${a3instdir}/steamcmd/steamcmd_linux.tar.gz
+	echo "--- SteamCMD was installed and is up to date!"
+fi
+
+# set file permissions of ~/Steam folder
+sudo -u $useradm find -L /home/${useradm}/Steam -type d -exec chmod 775 {} \;
+sudo -u $useradm find -L /home/${useradm}/Steam -type f -exec chmod 664 {} \;
 
 # build update scripts
 sudo -u $useradm touch ${a3instdir}/scripts/a3update.sh
 sudo -u $useradm chmod 744 ${a3instdir}/scripts/a3update.sh
 sudo -u $useradm bash -c "echo \"#!/bin/bash
 
+useradm=$useradm
 steamdir=${a3instdir}/steamcmd
 a3instdir=$a3instdir\" >> ${a3instdir}/scripts/a3update.sh"
 sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/a3update.sh >> ${a3instdir}/scripts/a3update.sh"
@@ -201,9 +225,14 @@ exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
 sudo bash -c "echo \"
 %${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
 \" >> /etc/sudoers"
+ln -s /home/${useradm}/Steam /root/Steam
 
 # request download
 echo -n "Installation is now prepared.
+
+You need to execute the command
+ln -s /home/${useradm}/Steam /home/UPDATEUSER/Steam
+once for every user you want to enable to run the update script.
 
 If you choose to abort now, you can still continue later by running the A3-update script.
 Begin download of A3? (y/n)?"

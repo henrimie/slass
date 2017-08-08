@@ -1,6 +1,11 @@
 #del users
-sudo deluser --remove-home $useradm
-sudo deluser --remove-home $userlnch
+if [ -d "/home/${usradm}" ]; then
+	sudo deluser --remove-home $useradm
+fi
+
+if [ -d "/home/${usrlnch}" ]; then
+	sudo deluser --remove-home $userlnch
+fi
 sudo groupdel $grpserver
 
 #mkusers
