@@ -79,7 +79,7 @@ while read line; do
   appkey=$(echo $line | awk -v var=$(( $serverid + 3 )) '{ printf "%s", $var }' )
   #echo "appkey = ${appkey} for ${appname}"
 
-    if [ "${serverid}" == "1" ] && [ "${apptype}" != "smod" ] && [ "${appkey}" = "1" ]; then
+    if [ "${apptype}" != "smod" ] && [ "${appkey}" = "1" ]; then
 			#echo " ... ${appname}-key on server #${serverid}"
 			ln -sf ${basepath}/a3master/_mods/@${appname}/*key*/*.bikey ${basepath}/a3srv${serverid}/keys/
     fi
