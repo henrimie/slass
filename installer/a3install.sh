@@ -128,7 +128,8 @@ sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/prepserv.sh
 
 sudo -u $useradm touch ${a3instdir}/a3master/cfg/a3common.cfg
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/a3common.cfg
-sudo -u $useradm bash -c "//
+
+sudo -u $useradm bash -c "echo \"//
 // More information at: http://community.bistudio.com/wiki/server.cfg
 //
 // GLOBAL SETTINGS
@@ -141,7 +142,7 @@ antistasirar=${antistasi_download_url##*/}
 antistasimission=${antistasirar%.rar}
 sudo -u $useradm touch ${a3instdir}/a3master/cfg/a3indi1.cfg
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/a3indi1.cfg
-sudo -u $useradm bash -c "headlessClients[]={\"127.0.0.1\"};
+sudo -u $useradm bash -c "echo \"headlessClients[]={\"127.0.0.1\"};
 localClient[]={\"127.0.0.1\"};
 
 // MISSIONS CYCLE
