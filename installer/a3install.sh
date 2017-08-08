@@ -66,6 +66,14 @@ Install extended modlist? (y/n)"
 read extmodlist
 
 echo -n "
+Input password for joining a3 server, if you want to leave the server public
+leave this empty and press enter
+
+Arma Server Password: "
+
+read srvpass
+
+echo -n "
 Building filestructure...
 "
 
@@ -117,14 +125,36 @@ sudo -u $useradm cp ${a3instdir}/installer/rsc/a3srviHC.sh ${a3instdir}/scripts/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/a3srviHC.sh
 sudo -u $useradm cp ${a3instdir}/installer/rsc/prepserv.sh ${a3instdir}/scripts/service/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/prepserv.sh
-sudo -u $useradm cp ${a3instdir}/installer/rsc/a3common.cfg ${a3instdir}/a3master/cfg/
+
+sudo -u $useradm touch ${a3instdir}/a3master/cfg/a3common.cfg
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/a3common.cfg
+sudo -u $useradm bash -c "//
+// More information at: http://community.bistudio.com/wiki/server.cfg
+//
+// GLOBAL SETTINGS
+password = \"${srvpass}\";						//Password for joining, eg connecting to the server\" >> ${a3instdir}/a3master/cfg/a3common.cfg"
+sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/a3common.cfg >> ${a3instdir}/a3master/cfg/a3common.cfg"
 sudo -u $useradm cp ${a3instdir}/installer/rsc/basic.cfg ${a3instdir}/a3master/cfg/
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/basic.cfg
 
+antistasirar=${antistasi_download_url##*/}
+antistasimission=${antistasirar%.rar}
+sudo -u $useradm touch ${a3instdir}/a3master/cfg/a3indi1.cfg
+sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/a3indi1.cfg
+sudo -u $useradm bash -c "headlessClients[]={\"127.0.0.1\"};
+localClient[]={\"127.0.0.1\"};
+
+// MISSIONS CYCLE
+class Missions {
+    class mission1
+		{
+		template = \"${antistasimission}\";
+		};
+};\" >> ${a3instdir}/a3master/cfg/a3indi1.cfg"
+
 for index in $(seq 4); do
 	if [ $index == "1" ]; then
-  	sudo -u $useradm cp ${a3instdir}/installer/rsc/a3indi.cfg ${a3instdir}/a3master/cfg/a3indi${index}.cfg
+  	wait 1
 	else
 		sudo -u $useradm cp ${a3instdir}/installer/rsc/a3indiHC.cfg ${a3instdir}/a3master/cfg/a3indi${index}.cfg
 	fi
@@ -163,6 +193,7 @@ for index in $(seq 4); do
 sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
 sudo bash -c "echo \"serverid=${index}
 basepath=${a3instdir}
+a3srvpass=${srvpass}
 . ${a3instdir}/scripts/service/a3srvi.sh\" >> /etc/init.d/a3srv${index}"
 sudo update-rc.d a3srv${index} defaults
 	else
@@ -175,6 +206,7 @@ sudo bash -c "echo \"#!/bin/sh
 sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
 sudo bash -c "echo \"serverid=${index}
 basepath=${a3instdir}
+a3srvpass=${srvpass}
 . ${a3instdir}/scripts/service/a3srviHC.sh\" >> /etc/init.d/a3srv${index}"
 sudo update-rc.d a3srv${index} defaults
 	fi

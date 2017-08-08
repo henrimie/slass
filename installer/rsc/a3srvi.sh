@@ -5,7 +5,7 @@
 arma_dir=${basepath}/a3srv${serverid}
 echo "Working on armadir: $arma_dir"
 name=a3srv${serverid}
-port=$((2302 + 10 * ( ${serverid} - 1 )))
+port=2302
 cfg_dir=${arma_dir}/cfg
 config=${cfg_dir}/${name}.cfg
 cfg=${cfg_dir}/basic.cfg

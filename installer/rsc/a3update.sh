@@ -112,7 +112,7 @@ done < ${a3instdir}/scripts/modlist.inp
 
 if [[ $antistasi_download_url ]]; then
   echo -n "
-Downloading and installing Antistasi mission...
+Updating/changing Antistasi mission...
 "
   # download and install Antistasi mission
   cd $a3instdir
