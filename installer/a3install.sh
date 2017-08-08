@@ -168,9 +168,9 @@ echo -n "
 Installing steam and requirements...
 "
 # install steamcmd
-sudo apt install lib32gcc1
-sudo apt install lib32stdc++6
-sudo apt install unrar
+sudo apt-get install lib32gcc1
+sudo apt-get install lib32stdc++6
+sudo apt-get install unrar
 cd $a3instdir/steamcmd
 sudo -u $useradm wget -nv http://media.steampowered.com/installer/steamcmd_linux.tar.gz
 sudo -u $useradm tar -xvzf steamcmd_linux.tar.gz

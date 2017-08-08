@@ -1,5 +1,6 @@
 <p align="center">
-    <sup><strong>short: acsiam</br>
+    <strong>Arma3 Co-operative Server Installer and Manager</br>
+    <sup>short: acsiam</br>
 	  Tested on Ubuntu 16.04 (Xenial)</br>
     </br>
     Based on seelenlos's <a target="_blank" href="https://github.com/joka-de/slass">Arma 3 server script</a>
@@ -57,11 +58,11 @@ On start, all config files are newly read in to consider possible config edits. 
 -- **useradm** - Is owner of the files in the server folder, can add/delete/modify files and manage servers. You can use your normal user account with sudo privileges for this. Make sure he is in **grpserver** (see below).</br>
 -- **userlnch** - Is the owner of the server process once fired up. For security reasons, he should not be able to get a shell nor become root.
 </br></br>*Use strong Passwords for both users anyway, never hand them out! A server with web access is not a toy!*</br></br>
--- **grpserver** - a user group in which both preceding noted users must be, preferably as initial-group. Add additional users to that group, to allow them to make basic maintenance of the gameserver (update, mod/mission install, restart, cfg changes)
--- **antistasi_download_url** - URL to use to download Antistasi. Check latest from <a target="_blank" href="http://www.a3antistasi.com/mod">http://www.a3antistasi.com/mod</a>
+-- **grpserver** - a user group in which both preceding noted users must be, preferably as initial-group. Add additional users to that group, to allow them to make basic maintenance of the gameserver (update, mod/mission install, restart, cfg changes)</br>
+-- **antistasi_download_url** - URL to be used for Antistasi download. Check latest from <a target="_blank" href="http://www.a3antistasi.com/mod">http://www.a3antistasi.com/mod</a>
 - prepare the server config files in **./installer/rsc**</br>
 **a3common.cfg** - master config file containing settings common for all server instances.</br>
-**a3indi.cfg** - template config file containing individual settings for each server instance. After installation, four individual copies of this file will exist, edit them if needed.</br>
+**a3indi.cfg** - template config file containing individual settings for each server instance. After installation, four individual copies of this file will exist, edit them if needed. (For default Antistasi installation there should be no need for editing.)</br>
 **basic.cfg** - loaded as -cfg file by the server process</br>
 **profile.Arma3Profile** - the Arma3Profile of the Server, set difficulty there</br>
 **prepserv.sh** - defines the server name, among other stuff. Edit the entry **hostname_base="Generic Arma3"** and the entry **" hostname id1=' Antistasi Altis' to your wishes. The final server name will be composed as</br>
@@ -78,17 +79,17 @@ On start, all config files are newly read in to consider possible config edits. 
 
 **3. Start Installation**
 - ensure the file **./installer/a3install.sh** is executable for your current user (chown , chmod 744)
-- run **./installer/a3install.sh** , confirm continuation request
+- run **sudo ./installer/a3install.sh** , confirm continuation request
 - decide, if you want the users to be created, see above
 - the script may ask you to install some packages named like libc6.., those are needed by steamcmd
 - confirm the begin of the download, or choose to download later by issuing the update script (see below).
 - The login into steam may fail on the first try, because you are probably logging in from a machine unknown to steam. In this case the script will freeze at the line "Verifiying Login-Data...". Abort the script by pressing **Ctrl-C** in that case. Then start **/srv/arma3/steamcmd/steamcmd.sh** and enter the guard code received per mail. Refer to the steamcmd manual on HowTo, or see below. Afterwards restart the update process by issuing **sudo /srv/arma3/scripts/runupdate.sh**. **runupdate.sh** from now on will always be the file to start in order to **update arma3 or install a mod**.
+- If you use **two-factor authentication** the install/update script will pause at **Logging in user 'USERNAME' to Steam Public...**, this is when you should input your **two-factor token** and press **enter**. It will pause for the **two-factor token** once for Arma3 and once for mods.
 - when you see **app_update 233780 validate** arma3 is being downloaded, be patient
-- when prompted, you may copy missions and non-workshop mods into the **./a3master** folder
-- ote the instructions on screen. If the installation of mods **...workshop_download_item ...** fails with timeout, abort the update process with **Ctrl-C**. This will happen if you download a large mod for the first time and the download takes long. The donwload attempts are cumulative, so each time you run the update, you make progress. For RHS for instance i needed to run the script 5 times. The issue is a bug in steamcmd.
+- Note the instructions on screen. If the installation of mods **...workshop_download_item ...** fails with timeout, abort the update process with **Ctrl-C**. This will happen if you download a large mod for the first time and the download takes long. The donwload attempts are cumulative, so each time you run the update, you make progress. For RHS for instance I needed to run the script 5 times. The issue is a bug in steamcmd.
 
 **4. Done**</br>
-Put at least one mission into mpmissions and Enjoy Arma3! You may delete the **installer** folder now.
+Enjoy Arma3 Antistasi! You may delete the **installer** folder now.
 
 ## Usage
 **1. Manage Servers**</br>
@@ -101,17 +102,14 @@ Replace X with the number of the server and OPTION with</br>
 **status** - prints the service status</br>
 **log** - prints the serverlog onto the prompt in realtime as it is written, abort with Ctrl-C</br></br>
 **Update** the servers and mods by running **sudo /srv/arma3/scripts/runupdate.sh**. The script will then download/update A3 and the workshop-mods registered in **modlist.inp**.</br>
-You may want to add the line</br>
-**%{grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-3] *, {a3instdir}/scripts/runupdate.sh**</br>
-to the sudoers file with visudo to avoid the system asking for the password. This is a must if you want to enable other members of the group that do not have root permissions (i.e. the maintance users) to issue the commands. Replcace {grpserver} with your groupname and {a3instdir} with your installation path.
 
 **2. Install mods**</br>
 For **workshop** mods: Ensure you have the mod subscribed for the user you wish to use for the update. Write an entry for the mod to install into modlist.inp as described in the installation section. Run an update.</br></br>
-For **non-workshop** (i.e. local) mods: Put the mod into **/srv/arma3/a3master/_mods/** and copy the **.bikey** file (if one is needed) in a respective folder **./_mods/@modname/keys**. Set the file owner and permissions like the other mods have it. You may alternatively run an update to let the script set the permissions. Write an entry for the mod to install into **modlist.inp** as described in the installation section. reboot the respective server to load the mod. </br></br>
+For **non-workshop** (i.e. local) mods: Put the mod into **/srv/arma3/a3master/_mods/** and copy the **.bikey** file (if one is needed) in a respective folder **./_mods/@modname/keys**. Set the file owner and permissions like the other mods have it. You may alternatively run an update to let the script set the permissions. Write an entry for the mod to install into **modlist.inp** as described in the installation section. reboot the a3srv1 to load the mod. </br></br>
 In both cases, ensure the **.bikey** file (if one is needed) is in a folder **./_mods/@modname/keys**, if you observe problems loading the mod. Otherwise the script won't find it.
 
 **3. Edit server configs**</br>
-Thats simple: Edit what you need to, and restart the corresponding server.
+Thats simple: Edit what you need to, and restart the a3server.
 
 ## Appendix
 **I. Enter Steam Guard code**
