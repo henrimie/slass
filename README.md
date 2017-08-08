@@ -114,6 +114,6 @@ Thats simple: Edit what you need to, and restart the a3server.
 ## Appendix
 **I. Enter Steam Guard code**
 - run **/srv/arma3/steamcmd/steamcmd.sh**
-- enter **login USERNAME**
-- enter the guard code
-- enter **exit**
+- input **login USERNAME**
+- input the **guard code**
+- input **exit**
