@@ -6,7 +6,7 @@
     Based on seelenlos's <a target="_blank" href="https://github.com/joka-de/slass">Arma 3 server script</a>
     </strong></sup></p>
 
-<p align="center">*License:* GNU GPLv3</p>
+<p align="center">License: GNU GPLv3</p>
 
 ## General
 This script will greatly ease the installation and management of an <a target="_blank" href="http://www.a3antistasi.com/mod">Arma3 Antistasi</a> server including required mods from the Steam workshop.</br></br>It is not a one-click-get-a-server script. Read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.
