@@ -44,11 +44,11 @@ if [ "${execdownload}" == "y" ]; then
 fi
 echo "quit" >> $tmpfile
 
+# update game
 echo -n "
 Updating Arma 3...
 "
-# update game
-${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----/g" &
+${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----\n\nEnter two-factor code if used:/g" &
 steampid=$!
 wait $steampid
 rm $tmpfile
@@ -82,16 +82,19 @@ done < ${a3instdir}/scripts/modlist.inp
 
 echo "quit"  >> $tmpfile
 
+# update workshop mods
 echo -n "
 Updating mods...
 "
-# update workshop mods
-${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----/g" &
+${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----\n\nEnter two-factor code if used:/g" &
 steampid=$!
 wait $steampid
 rm $tmpfile
 
 # (re)make symlinks to the mods
+echo -n "
+(re)making symlinks to mods...
+"
 find ${a3instdir}/a3master/_mods/ -maxdepth 1 -type l -delete
 while read line; do
   appid=$(echo $line | awk '{ printf "%s", $2 }')
@@ -124,8 +127,8 @@ Updating/changing Antistasi mission...
   sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
   sudo rm -f ${a3instdir}/${antistasirar}
 
-if [[ -z $debug ]]; then
-  echo -n "
+  if [[ -z $debug ]]; then
+    echo -n "
 
 Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
 if mission filename changed remember to change ${a3instdir}/a3master/cfg/a3indi1.cfg
@@ -136,6 +139,7 @@ class mission1
                 };
 
 "
+  fi
 fi
 
 # reset the file permissions in a3master
@@ -160,7 +164,7 @@ if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
 fi
 sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
 sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
-ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
+sudo -u $useradm ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
 
 echo -n "
 (re)creating the folders of the instances...
@@ -183,4 +187,5 @@ for index in $(seq 4); do
 	echo -n " #${index}"
 	sleep 3s
 done
+
 echo $' - DONE\n'

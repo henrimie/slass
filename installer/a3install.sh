@@ -114,7 +114,10 @@ else
 fi
 sudo -u $useradm cp ${a3instdir}/installer/rsc/restartall.sh ${a3instdir}/scripts/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/restartall.sh
-ln -s ${a3instdir}/scripts/restartall.sh ${a3instdir}/restartall
+if [ -f "${a3instdir}/restartall" ]; then
+	sudo rm -f ${a3instdir}/restartall
+fi
+sudo -u $useradm ln -s ${a3instdir}/scripts/restartall.sh ${a3instdir}/restartall
 sudo -u $useradm cp ${a3instdir}/installer/rsc/a3srvi.sh ${a3instdir}/scripts/service/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/a3srvi.sh
 sudo -u $useradm cp ${a3instdir}/installer/rsc/a3srviHC.sh ${a3instdir}/scripts/service/
@@ -252,7 +255,10 @@ sudo -iu ${useradm} ${a3instdir}/scripts/a3update.sh
 
 fi
 exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
-ln -s ${a3instdir}/scripts/runupdate.sh ${a3instdir}/runupdate
+if [ -f "${a3instdir}/runupdate" ]; then
+	sudo rm -f ${a3instdir}/runupdate
+fi
+sudo -u $useradm ln -s ${a3instdir}/scripts/runupdate.sh ${a3instdir}/runupdate
 
 sudo bash -c "echo \"
 %${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
