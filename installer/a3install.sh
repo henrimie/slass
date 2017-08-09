@@ -216,6 +216,7 @@ done
 
 echo -n "
 Installing steam and requirements...
+
 "
 # install steamcmd
 sudo apt-get install unrar

@@ -15,7 +15,8 @@ read user
 echo "Please enter the Steam-Password for $user:"
 read -s pw
 
-echo -n "  ... halt servers
+echo -n "
+  ... halt servers
 "
 # halt server(s)
 for index in $(seq 4); do
@@ -117,14 +118,27 @@ done < ${a3instdir}/scripts/modlist.inp
 if [[ $antistasi_download_url ]]; then
   echo -n "
 Updating/changing Antistasi mission...
+
 "
-  cd $a3instdir
-  sudo -u $useradm wget -nv $antistasi_download_url
   antistasirar=${antistasi_download_url##*/}
-  sudo -u $useradm unrar x $antistasirar
   antistasimission=${antistasirar%.rar}.pbo
+  cd $a3instdir
+  echo -n "
+... downloading $antistasirar
+
+"
+  sudo -u $useradm wget -nv $antistasi_download_url
+  sudo -u $useradm unrar x $antistasirar
+  echo -n "
+Moving ${antistasimission} to ${a3instdir}/a3master/mpmissions/ ...
+
+"
   sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
   sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
+  echo -n "
+  Removing ${antistasirar}...
+
+  "
   sudo rm -f ${a3instdir}/${antistasirar}
 
   if [[ -z $debug ]]; then
@@ -133,6 +147,7 @@ Updating/changing Antistasi mission...
 Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
 if mission filename changed remember to change ${a3instdir}/a3master/cfg/a3indi1.cfg
 and update template to:
+
 class mission1
                 {
                 template = ${antistasirar%.rar};
@@ -143,7 +158,8 @@ class mission1
 fi
 
 # reset the file permissions in a3master
-echo -n " ...reseting the file permissions in a3master"
+echo -n "
+ ...reseting the file permissions in a3master"
 find -L $a3instdir/a3master -type d -exec chmod 775 {} \;
 find -L $a3instdir/a3master -type f -exec chmod 664 {} \;
 chmod 774 $a3instdir/a3master/arma3server
@@ -151,19 +167,20 @@ find $a3instdir/a3master -iname '*.so' -exec chmod 775 {} \;
 echo $' - DONE\n'
 
 # make all mods lowercase
-echo -n "... renaming mods to lowercase"
+echo -n "
+... renaming mods to lowercase"
 find -L ${a3instdir}/a3master/_mods/ -depth -execdir rename -f 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 echo $' - DONE\n'
 
 # update @aceserver mod
 echo -n "
-Updating @aceserver mod..
+Updating @aceserver mod...
 "
 if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
   sudo rm -rf ${a3instdir}/a3master/_mods/@aceserver
 fi
-sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
-sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
+sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=777
+sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=777
 sudo -u $useradm ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
 
 echo -n "
@@ -180,7 +197,8 @@ for index in $(seq 4); do
 	mkdir $a3instdir/a3srv${index}/keys --mode=775
 done
 
-echo -n "... starting the server and headless clients"
+echo -n "
+... starting the server and headless clients"
 # bring server(s) back up
 for index in $(seq 4); do
         sudo service a3srv${index} start
