@@ -16,7 +16,7 @@ echo "Please enter the Steam-Password for $user:"
 read -s pw
 
 echo -n "
-  ... halt servers
+... halt servers
 "
 # halt server(s)
 for index in $(seq 4); do
@@ -118,7 +118,6 @@ done < ${a3instdir}/scripts/modlist.inp
 if [[ $antistasi_download_url ]]; then
   echo -n "
 Updating/changing Antistasi mission...
-
 "
   antistasirar=${antistasi_download_url##*/}
   antistasimission=${antistasirar%.rar}.pbo
@@ -136,14 +135,12 @@ Moving ${antistasimission} to ${a3instdir}/a3master/mpmissions/ ...
   sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
   sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
   echo -n "
-  Removing ${antistasirar}...
-
+Removing ${antistasirar}...
   "
   sudo rm -f ${a3instdir}/${antistasirar}
 
   if [[ -z $debug ]]; then
     echo -n "
-
 Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
 if mission filename changed remember to change ${a3instdir}/a3master/cfg/a3indi1.cfg
 and update template to:
@@ -159,7 +156,7 @@ fi
 
 # reset the file permissions in a3master
 echo -n "
- ...reseting the file permissions in a3master"
+...reseting the file permissions in a3master"
 find -L $a3instdir/a3master -type d -exec chmod 775 {} \;
 find -L $a3instdir/a3master -type f -exec chmod 664 {} \;
 chmod 774 $a3instdir/a3master/arma3server
@@ -179,8 +176,8 @@ Updating @aceserver mod...
 if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
   sudo rm -rf ${a3instdir}/a3master/_mods/@aceserver
 fi
-sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=777
-sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=777
+sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
+sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
 sudo -u $useradm ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
 
 echo -n "
@@ -198,7 +195,8 @@ for index in $(seq 4); do
 done
 
 echo -n "
-... starting the server and headless clients"
+... starting the server and headless clients
+"
 # bring server(s) back up
 for index in $(seq 4); do
         sudo service a3srv${index} start
