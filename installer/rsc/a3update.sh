@@ -48,8 +48,7 @@ echo -n "
 Updating Arma 3...
 "
 # update game
-${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----
-Enter two-factor code if used: /g" &
+${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----/g" &
 steampid=$!
 wait $steampid
 rm $tmpfile
@@ -87,8 +86,7 @@ echo -n "
 Updating mods...
 "
 # update workshop mods
-${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----
-Enter two-factor code if used: /g" &
+${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----/g" &
 steampid=$!
 wait $steampid
 rm $tmpfile
