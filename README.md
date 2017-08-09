@@ -139,8 +139,8 @@ class mission1
 "
 
 **III. Changing Arma 3 server password for joining
-- Edit both
+- Edit both</br>
 -- **{a3instdir}/a3master/cfg/a3common.cfg**</br>
     password = "empty or desired password";</br>
--- **{a3instdir}/scripts/service/servervars.cfg**
+-- **{a3instdir}/scripts/service/servervars.cfg**</br>
     a3srvpass=empty or desired password
