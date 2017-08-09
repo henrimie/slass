@@ -66,14 +66,6 @@ Install extended modlist? (y/n)"
 read extmodlist
 
 echo -n "
-Input password for joining a3 server, if you want to leave the server public
-leave this empty and press enter
-
-Arma Server Password: "
-
-read srvpass
-
-echo -n "
 Building filestructure...
 "
 
@@ -84,7 +76,7 @@ sudo -u $useradm chmod 775 $a3instdir
 if [ $debug == "y"  ]; then
  list=("scripts")
 else
- list=("scripts" "a3master" "steamcmd")
+ list=("scripts" "a3master" "steamcmd" "steamapps")
 fi
 
 for folder in "${list[@]}"; do
@@ -108,6 +100,7 @@ sudo -u $useradm mkdir ${a3instdir}/a3master/cfg --mode=775
 sudo -u $useradm mkdir ${a3instdir}/a3master/log --mode=775
 sudo -u $useradm mkdir ${a3instdir}/scripts/logs --mode=775
 sudo -u $useradm mkdir ${a3instdir}/a3master/userconfig --mode=775
+sudo -u $useradm mkdir ${a3instdir}/a3master/userconfig/ace --mode=775
 
 # copy files
 sudo -u $useradm cp ${a3instdir}/installer/rsc/servervars.cfg ${a3instdir}/scripts/service/
@@ -119,21 +112,27 @@ else
 	sudo -u $useradm cp ${a3instdir}/installer/rsc/modlist.inp ${a3instdir}/scripts/
 	sudo -u $useradm chmod 664 ${a3instdir}/scripts/modlist.inp
 fi
+sudo -u $useradm cp ${a3instdir}/installer/rsc/restartall.sh ${a3instdir}/scripts/
+sudo -u $useradm chmod 754 ${a3instdir}/scripts/restartall.sh
+ln -s ${a3instdir}/scripts/restartall.sh ${a3instdir}/restartall
 sudo -u $useradm cp ${a3instdir}/installer/rsc/a3srvi.sh ${a3instdir}/scripts/service/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/a3srvi.sh
 sudo -u $useradm cp ${a3instdir}/installer/rsc/a3srviHC.sh ${a3instdir}/scripts/service/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/a3srviHC.sh
 sudo -u $useradm cp ${a3instdir}/installer/rsc/prepserv.sh ${a3instdir}/scripts/service/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/prepserv.sh
+sudo -u $useradm touch ${a3instdir}/a3master/userconfig/cba_settings.sqf
+sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/cba_settings.sqf
+sudo -u $useradm cp ${a3instdir}/installer/rsc/aceserverconfig.hpp ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
+sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
 
 sudo -u $useradm touch ${a3instdir}/a3master/cfg/a3common.cfg
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/a3common.cfg
-
 sudo -u $useradm bash -c "echo \"//
 // More information at: http://community.bistudio.com/wiki/server.cfg
 //
 // GLOBAL SETTINGS
-password = \"${srvpass}\";						//Password for joining, eg connecting to the server\" >> ${a3instdir}/a3master/cfg/a3common.cfg"
+password = \"${a3srvpass}\";						//Password for joining, eg connecting to the server\" >> ${a3instdir}/a3master/cfg/a3common.cfg"
 sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/a3common.cfg >> ${a3instdir}/a3master/cfg/a3common.cfg"
 sudo -u $useradm cp ${a3instdir}/installer/rsc/basic.cfg ${a3instdir}/a3master/cfg/
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/basic.cfg
@@ -155,7 +154,7 @@ class Missions {
 
 for index in $(seq 4); do
 	if [ $index == "1" ]; then
-  	wait 1
+  	sleep 1s
 	else
 		sudo -u $useradm cp ${a3instdir}/installer/rsc/a3indiHC.cfg ${a3instdir}/a3master/cfg/a3indi${index}.cfg
 	fi
@@ -164,7 +163,7 @@ done
 
 # build Arma3Profile
 if [ -d "/home/"${userlnch}'/.local/share/Arma 3 - Other Profiles/'"${grpserver}" ]; then
-        sudo -u $userlnch rm -rf /home/${userlnch}"/.local/share/Arma 3 - Other Profiles/"${grpserver}
+        sudo rm -rf /home/${userlnch}"/.local/share/Arma 3 - Other Profiles/"${grpserver}
 fi
 sudo chmod 755 /home/${userlnch}
 sudo -u $userlnch mkdir -p /home/${userlnch}"/.local/share/Arma 3 - Other Profiles/"${grpserver} --mode=775
@@ -177,7 +176,8 @@ sudo -u $useradm chmod 664 ${a3instdir}/scripts/service/servervars.cfg
 sudo bash -c "echo \"
 useradm=${useradm}
 username=${userlnch}
-profile=${grpserver}\" >> ${a3instdir}/scripts/service/servervars.cfg"
+profile=${grpserver}
+a3srvpass=${a3srvpass}\" >> ${a3instdir}/scripts/service/servervars.cfg"
 
 # build SysVinit scripts
 for index in $(seq 4); do
@@ -194,7 +194,6 @@ for index in $(seq 4); do
 sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
 sudo bash -c "echo \"serverid=${index}
 basepath=${a3instdir}
-a3srvpass=${srvpass}
 . ${a3instdir}/scripts/service/a3srvi.sh\" >> /etc/init.d/a3srv${index}"
 sudo update-rc.d a3srv${index} defaults
 	else
@@ -207,7 +206,6 @@ sudo bash -c "echo \"#!/bin/sh
 sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
 sudo bash -c "echo \"serverid=${index}
 basepath=${a3instdir}
-a3srvpass=${srvpass}
 . ${a3instdir}/scripts/service/a3srviHC.sh\" >> /etc/init.d/a3srv${index}"
 sudo update-rc.d a3srv${index} defaults
 	fi
@@ -254,11 +252,11 @@ sudo -iu ${useradm} ${a3instdir}/scripts/a3update.sh
 
 fi
 exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
+ln -s ${a3instdir}/scripts/runupdate.sh ${a3instdir}/runupdate
 
 sudo bash -c "echo \"
 %${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
 \" >> /etc/sudoers"
-ln -s /home/${useradm}/Steam /root/Steam
 
 # request download
 echo -n "Installation is now prepared.

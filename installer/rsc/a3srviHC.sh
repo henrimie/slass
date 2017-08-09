@@ -10,8 +10,8 @@ cfg_dir=${arma_dir}/cfg
 config=${cfg_dir}/${name}.cfg
 cfg=${cfg_dir}/basic.cfg
 log_dir=${arma_dir}/log
-pidfile=${arma_dir}/a3srv${serverid}.pid
-runfile=${arma_dir}/a3srv${serverid}.run
+pidfile=${arma_dir}/${name}.pid
+runfile=${arma_dir}/${name}.run
 logfile=${log_dir}/${name}_$(date +%Y-%m-%d_%H:%M:%S).log
 server=${arma_dir}/arma3server
 
@@ -25,18 +25,18 @@ case "$1" in
 #
 start)
 # check if there is a server running or not
-ps ax | grep ${server}  > /dev/null
+ps ax | grep ${server} | grep ${port} > /dev/null
 
 if [ $? -eq 0 ]; then
 
-echo "\033[31mthere is a headless client already running (${server})\033[0m"
+echo "\033[31mthere is a headless client already running (${name})\033[0m"
 echo "\033[31mit can happen, when you started a server and stopped it to fast!\033[0m"
 echo "\033[31mjust stop the server again and it should be good to start!\033[0m"
 echo $output | ps ax | grep ${server} | grep ${port}
 
 else
 
-echo "starting a3 headless client \033[35m${server}\033[0m..."
+echo "starting a3 headless client ${name} \033[35m${server}\033[0m..."
 
 # file to mark we want server running...
 echo "go" >${runfile}
@@ -51,7 +51,7 @@ fi
 ;;
 #
 stop)
-echo "stopping a3 headless client if there is one (hc=\033[35m${server}\033[0m)..."
+echo "stopping a3 headless client if there is one ${name} (\033[35m${server}\033[0m)..."
 if [ -f ${runfile} ]; then
 # ask watcher process to exit by deleting its runfile...
 rm -f ${runfile}
@@ -102,9 +102,9 @@ find -L ${log_dir} -iname "*.log" -mtime +${deldays} -delete
 while [ -f ${runfile} ]; do
 # launch the server...
 cd ${arma_dir}
-echo >>${logfile} "watchdog ($$): [$(date)] starting headless client (\033[35m${server}\033[0m)..."
+echo >>${logfile} "watchdog ($$): [$(date)] starting headless client ${name} (\033[35m${server}\033[0m)..."
 #
-sudo -u ${username} ${server} >>${logfile} 2>&1 -client -connect=127.0.0.1 -password=${a3srvpass} -port=${port} -profiles=${hcprofile} -mod=${mods} ${servermods} &
+sudo -u ${username} ${server} >>${logfile} 2>&1 -client -connect=127.0.0.1 -password=${a3srvpass} -port=${port} -profiles=${hcprofile} -mod=${mods} &
 pid=$!
 echo $pid > $pidfile
 chmod 664 $logfile
@@ -112,10 +112,10 @@ chown ${useradm}:${profile} $logfile
 wait $pid
 #
 if [ -f ${runfile} ]; then
-echo >>${logfile} "watchdog ($$): [$(date)] headless client died, waiting to restart..."
+echo >>${logfile} "watchdog ($$): [$(date)] headless client ${name} died, waiting to restart..."
 sleep 5s
 else
-echo >>${logfile} "watchdog ($$): [$(date)] headless client shutdown intentional, watchdog terminating"
+echo >>${logfile} "watchdog ($$): [$(date)] headless client ${name} shutdown intentional, watchdog terminating"
 fi
 done
 ;;

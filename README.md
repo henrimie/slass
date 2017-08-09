@@ -61,20 +61,21 @@ On start, all config files are newly read in to consider possible config edits. 
 -- **userlnch** - Is the owner of the server process once fired up. For security reasons, he should not be able to get a shell nor become root.
 </br></br>*Use strong Passwords for both users anyway, never hand them out! A server with web access is not a toy!*</br></br>
 -- **grpserver** - a user group in which both preceding noted users must be, preferably as initial-group. Add additional users to that group, to allow them to make basic maintenance of the gameserver (update, mod/mission install, restart, cfg changes)</br>
--- **antistasi_download_url** - URL to be used for Antistasi download. Check latest from <a target="_blank" href="http://www.a3antistasi.com/mod">http://www.a3antistasi.com/mod</a>
+-- **a3srvpass** - Password (if desired, can be left empty) for joining your to be created Arma 3 Antistasi server
+-- **antistasi_download_url** - URL to be used for Antistasi download. Check latest from <a target="_blank" href="http://www.a3antistasi.com/mod">http://www.a3antistasi.com/mod</a></br>
+ie. for non-beta Antistasi Altis:</br> https://s3.amazonaws.com/files.enjin.com/1218665/Antistasi%20Game%20Files/ALTIS/public_versions/Antistasi.Altis.rar
 - prepare the server config files in **./installer/rsc**</br>
 **a3common.cfg** - master config file containing settings common for all server instances.</br>
-**a3indi.cfg** - template config file containing individual settings for each server instance. After installation, four individual copies of this file will exist, edit them if needed. (For default Antistasi installation there should be no need for editing.)</br>
 **basic.cfg** - loaded as -cfg file by the server process</br>
 **servervars.cfg** - config file setting additional options for the server executable, normally you don't need to edit this</br>
-- determine the mods to install (not necessary by default), to do so edit **./installer/rsc/modlist.inp** . The file has seven columns:</br>
+- determine the mods to install (not necessary by default for Antistasi Server), to do so edit **./installer/rsc/modlist.inp** or **./installer/rsc/modlistextd.inp** . The files have seven columns:</br>
 	I. shortname of the mod</br>
 	II. steam-app-id of the mod; if the mod is not in the workshop, insert the word **local**</br>
  	III. mod type; use</br>
 		**mod** if the mod is to be loaded by server and client (key and mod is loaded), e.g. ACE</br>
 		**cmod** if the mod is only to be loaded client side (only mod is loaded), e.g. JSRS</br>
 		**smod** if the mod is only to be loaded by the server (only key is loaded), e.g. ace_server</br>
-	IV. to VII. contains a binary key 0/1 selecting if the mod is to be loaded on server or headless client #1(server)/#2(hc)/#3(hc)/#4(hc)</br>
+	IV. to VII. contains a binary key 0/1 selecting if the mod is to be loaded on server or headless client #1(a3server)/#2(hc1)/#3(hc2)/#4(hc3)</br>
 **prepserv.sh** - defines the server name, among other stuff. Edit the entry **hostname_base="Generic Arma3"** and the entry **" hostname id1=' Antistasi Altis' to your wishes. The final server name will be composed as</br>
 **Hostname_base+hostname_id1**, e.g. **"Generic Arma3 Antistasi Altis"**</br>Don't edit more of the file or you will break it...
 **profile.Arma3Profile** - the Arma3Profile of the Server, set difficulty there</br>
@@ -113,14 +114,33 @@ for each user you want to enable to run the update script. Run the command as th
 **2. Install mods**</br>
 For **workshop** mods: Ensure you have the mod subscribed for the user you wish to use for the update. Write an entry for the mod to install into modlist.inp as described in the installation section. Run an update.</br></br>
 For **non-workshop** (i.e. local) mods: Put the mod into **/srv/arma3/a3master/_mods/** and copy the **.bikey** file (if one is needed) in a respective folder **./_mods/@modname/keys**. Set the file owner and permissions like the other mods have it. You may alternatively run an update to let the script set the permissions. Write an entry for the mod to install into **modlist.inp** as described in the installation section. Reboot the a3srv1 to load the mod. </br></br>
-In both cases, ensure the **.bikey** file (if one is needed) is in a folder **./_mods/@modname/keys**, if you observe problems loading the mod. Otherwise the script won't find it.
+In both cases, ensure the **.bikey** file (if one is needed) is in a folder **{a3instdir}/a3master/_mods/@modname/keys**, if you observe problems loading the mod. Otherwise the script won't find it.
 
 **3. Edit server configs**</br>
 Thats simple: Edit what you need to, and restart the a3server.
 
 ## Appendix
 **I. Enter Steam Guard code**
-- run **/srv/arma3/steamcmd/steamcmd.sh**; make sure you run this command as {useradmin} or a {userupdate} for whom the *ln* command has already been applied
+- run **{a3instdir}/steamcmd/steamcmd.sh**; make sure you run this command as {useradmin} or a {userupdate} for whom the *ln* command has already been applied
 - input **login USERNAME**
 - input the **guard code**
 - input **exit**
+
+**II. Updating or changing the Antistasi mission file
+- run **sudo {a3instdir}/arma3/scripts/runupdate.sh {antistasi_download_url}</br>
+obviously replacing {antistasi_download_url} with your desired Antistasi mission .rar url.
+- if mission filename changed remember to change {a3instdir}/a3master/cfg/a3indi1.cfg
+and update template to:
+class mission1
+                {
+                template = {antistasi_mission_file_without_.pbo_ending};
+                };
+
+"
+
+**III. Changing Arma 3 server password for joining
+- Edit both
+-- **{a3instdir}/a3master/cfg/a3common.cfg**</br>
+    password = "empty or desired password";</br>
+-- **{a3instdir}/scripts/service/servervars.cfg**
+    a3srvpass=empty or desired password

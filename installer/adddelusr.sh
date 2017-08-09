@@ -3,7 +3,7 @@ if [ -d "/home/${usradm}" ]; then
 	sudo deluser --remove-home $useradm
 fi
 
-if [ -d "/home/${usrlnch}" ]; then
+if [ -d "/home/${userlnch}" ]; then
 	sudo deluser --remove-home $userlnch
 fi
 sudo groupdel $grpserver

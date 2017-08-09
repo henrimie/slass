@@ -48,7 +48,8 @@ echo -n "
 Updating Arma 3...
 "
 # update game
-${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----/g" &
+${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----
+Enter two-factor code if used: /g" &
 steampid=$!
 wait $steampid
 rm $tmpfile
@@ -86,7 +87,8 @@ echo -n "
 Updating mods...
 "
 # update workshop mods
-${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----/g" &
+${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----
+Enter two-factor code if used: /g" &
 steampid=$!
 wait $steampid
 rm $tmpfile
@@ -110,11 +112,11 @@ done < ${a3instdir}/scripts/modlist.inp
 #wget -m -nv -nH --cut-dirs=2 --retry-connrefused --timeout=30 -P ${a3instdir}/a3master/_mods/@rhsgref ftp://ftp.rhsmods.org/beta/rhsgref/
 #wget -m -nv -nH --cut-dirs=2 --retry-connrefused --timeout=30 -P ${a3instdir}/a3master/_mods/@rhsgref/keys/ ftp://ftp.rhsmods.org/beta/keys/rhsgref.0.4.1.1.bikey
 
+# download and install/update/change Antistasi mission
 if [[ $antistasi_download_url ]]; then
   echo -n "
 Updating/changing Antistasi mission...
 "
-  # download and install Antistasi mission
   cd $a3instdir
   sudo -u $useradm wget -nv $antistasi_download_url
   antistasirar=${antistasi_download_url##*/}
@@ -123,6 +125,19 @@ Updating/changing Antistasi mission...
   sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
   sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
   sudo rm -f ${a3instdir}/${antistasirar}
+
+if [[ -z $debug ]]; then
+  echo -n "
+
+Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
+if mission filename changed remember to change ${a3instdir}/a3master/cfg/a3indi1.cfg
+and update template to:
+class mission1
+                {
+                template = ${antistasirar%.rar};
+                };
+
+"
 fi
 
 # reset the file permissions in a3master
@@ -137,6 +152,17 @@ echo $' - DONE\n'
 echo -n "... renaming mods to lowercase"
 find -L ${a3instdir}/a3master/_mods/ -depth -execdir rename -f 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 echo $' - DONE\n'
+
+# update @aceserver mod
+echo -n "
+Updating @aceserver mod..
+"
+if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
+  sudo rm -rf ${a3instdir}/a3master/_mods/@aceserver
+fi
+sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
+sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
+ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
 
 echo -n "
 (re)creating the folders of the instances...
