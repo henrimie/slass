@@ -129,7 +129,7 @@ Thats simple: Edit what you need to, and restart the a3server.
 **II. Updating or changing the Antistasi mission file**
 - run **sudo {a3instdir}/arma3/scripts/runupdate.sh {antistasi_download_url}**</br>
 obviously replacing {antistasi_download_url} with your desired Antistasi mission .rar url.
-- if mission filename changed remember to change **{a3instdir}/a3master/cfg/a3indi1.cfg**</br>
+- if **mission filename** changed remember to change **{a3instdir}/a3master/cfg/a3indi1.cfg**</br>
 and update template to:</br></br>
 class mission1</br>
                 {</br>
