@@ -26,15 +26,6 @@ for index in $(seq 4); do
 done
 echo $' - DONE\n'
 
-
-echo -n "
-If you use two-factor authentication this script will pause at: login USERNAME ----,
-this is when you should input your two-factor token and press enter.
-
-The script will pause for the two-factor token** once for the game install and
-once for the mods.
-"
-
 # build steam script file - game
 tmpfile=$(mktemp)
 echo "@ShutdownOnFailedCommand 1
@@ -63,7 +54,7 @@ If you want to manually expand the server with non-workshop mods, missions, etc.
 in antoher console. Remember to set the appropiate owner and group for the content.
 Type y if you are done and want to go on with the update.
 
-Go on? (y)"
+Go on? (y) "
 read goon
 done
 
@@ -217,6 +208,8 @@ ${a3instdir}/scripts/modlist.inp
 
 and add this line:
 dgc_fiaveh      local           smod    1 0 0 0
+
+and restart the server and hc's
 "
   sudo rm -f ${a3instdir}/${dgcrar}
 fi

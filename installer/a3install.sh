@@ -28,7 +28,7 @@ Modify ./install.cfg to change the above.
 The script will OVERWRITE existing folders in the installation directory,
 and you may be asked for the 'sudo' password by the script.
 
-Do you want to continue? (y/n)"
+Do you want to continue? (y/n) "
 
 read goinst
 if [ $goinst != "y" ]; then
@@ -37,7 +37,7 @@ fi
 
 if [ $debug == "y"  ]; then
 	echo "---Debug mode is ON----"
-	sleep 1
+	sleep 5
 fi
 
 # scripted user management
@@ -47,7 +47,7 @@ Do you want the users named above to be created?
 WARNING, if they already exist, they will be DELETED, including their home folders!
 ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
 
-Create Users? (y/n)"
+Create Users? (y/n) "
 read mkuser
 if [ $mkuser == "y" ]; then
 	. $a3instdir/installer/adddelusr.sh
@@ -57,7 +57,7 @@ echo -n "
 Choose to install with a pre-configured modset or leave the server vanilla with only
 Antistasi mission downloaded and installed.
 
-Install with modset? (y/n)"
+Install with modset? (y/n) "
 read mods
 
 if [ $mods == "y" ]; then
@@ -242,7 +242,9 @@ if [ $debug != "y"  ]; then
 	sudo -u $useradm tar -xvzf steamcmd_linux.tar.gz
 	sudo -iu $useradm ${a3instdir}/steamcmd/steamcmd.sh +runscript ${a3instdir}/installer/rsc/update.steam
 	sudo -u $useradm rm -f ${a3instdir}/steamcmd/steamcmd_linux.tar.gz
-	echo "--- SteamCMD was installed and is up to date!"
+	echo "
+--- SteamCMD was installed and is up to date!
+"
 fi
 
 # set file permissions of ~/Steam folder
@@ -280,14 +282,19 @@ sudo bash -c "echo \"
 \" >> /etc/sudoers"
 
 # request download
-echo -n "Installation is now prepared.
+echo -n "
+
+
+------------------------------
+
+Installation is now prepared.
 
 You need to execute the command
 ln -s /home/${useradm}/Steam /home/UPDATEUSER/Steam
 once for every user you want to enable to run the update script.
 
 If you choose to abort now, you can still continue later by running the A3-update script.
-Begin download of A3? (y/n)?"
+Begin download of A3? (y/n)? "
 
 #You may want to add the line
 #%${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
