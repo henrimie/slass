@@ -130,16 +130,16 @@ Thats simple: Edit what you need to, and restart the a3server.
 - run **sudo {a3instdir}/arma3/scripts/runupdate.sh {antistasi_download_url}**</br>
 obviously replacing {antistasi_download_url} with your desired Antistasi mission .rar url.
 - if mission filename changed remember to change **{a3instdir}/a3master/cfg/a3indi1.cfg**</br>
-and update template to:</br>
-class mission1</br>
+and update template to:</br></br>
+**class mission1</br>
                 {</br>
-                template = **{antistasi_mission_file_without_.pbo_ending}**;</br>
-                };
+                template = {antistasi_mission_file_without_.pbo_ending};</br>
+                };**
 
 **III. Changing Arma 3 server password for joining**
 - Edit both</br>
 -- **{a3instdir}/a3master/cfg/a3common.cfg**</br>
-    password = "empty or desired password";</br>
+    password = "empty or desired password";</br></br>
 -- **{a3instdir}/scripts/service/servervars.cfg**</br>
     a3srvpass=empty or desired password
 
@@ -149,7 +149,7 @@ Self explanatory.</br></br>
 - **Basic modlist:**</br>
 <sup>(<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=1106546686">Basic Mod collection for easy subscription.</a>)</sup></br></br>
 <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=450814997">CBA_A3</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843425103">RHSAFRF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843577117">RHSUSAF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843593391">RHSGREF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843632231">RHSSAF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=463939057">ACE</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=773131200">ACE Compat - RHSAFRF</a>,</br>
-<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=773125288">ACE Compat - RHSUSAF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=884966711">ACE Compat - RHSGREF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=437407341">XLA_FixedArsenal</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=333310405">Enhanced Movement</a></br>
+<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=773125288">ACE Compat - RHSUSAF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=884966711">ACE Compat - RHSGREF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=437407341">XLA_FixedArsenal</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=333310405">Enhanced Movement</a></br></br>
 - **Extended modlist (added to basic modlist):**</br>
 <sup>(<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=1106548354">Extended Mod collection for easy subscription.</a>)</sup></br></br>
 <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=814650855">Dusty's RHS</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=804952618">Retexture Project</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=861133494">JSRS SOUNDMOD</a>,</br>
