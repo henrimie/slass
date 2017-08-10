@@ -117,6 +117,7 @@ sudo -u $useradm chmod 644 ${a3instdir}/scripts/service/servervars.cfg
 if [ $mods == "y" ]; then
 	sudo -u $useradm touch ${a3instdir}/a3master/userconfig/cba_settings.sqf
 	sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/cba_settings.sqf
+	sudo -u $useradm mkdir ${a3instdir}/a3master/userconfig/ace --mode=775
 	sudo -u $useradm cp ${a3instdir}/installer/rsc/aceserverconfig.hpp ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
 	sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
 	if [ $extmodlist == "y" ]; then
