@@ -131,10 +131,10 @@ Thats simple: Edit what you need to, and restart the a3server.
 obviously replacing {antistasi_download_url} with your desired Antistasi mission .rar url.
 - if mission filename changed remember to change **{a3instdir}/a3master/cfg/a3indi1.cfg**</br>
 and update template to:</br></br>
-**class mission1</br>
+*class mission1</br>
                 {</br>
                 template = {antistasi_mission_file_without_.pbo_ending};</br>
-                };**
+                };*
 
 **III. Changing Arma 3 server password for joining**
 - Edit both</br>
