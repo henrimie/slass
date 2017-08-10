@@ -15,18 +15,17 @@ read user
 echo "Please enter the Steam-Password for $user:"
 read -s pw
 
-if [[ -z $debug ]]; then
-  echo -n "
+# halt server(s)
+echo -n "
 ... halt servers
 "
-  # halt server(s)
-  for index in $(seq 4); do
-    sudo service a3srv${index} stop
-	  echo -n " #${index}"
-	  sleep 2s
-  done
-  echo $' - DONE\n'
-fi
+for index in $(seq 4); do
+  sudo service a3srv${index} stop
+  echo -n " #${index}"
+  sleep 2s
+done
+echo $' - DONE\n'
+
 
 echo -n "
 If you use two-factor authentication this script will pause at: login USERNAME ----,
@@ -141,8 +140,8 @@ Removing ${antistasirar}...
   "
   sudo rm -f ${a3instdir}/${antistasirar}
 
-  if [[ -z $debug ]]; then
-    echo -n "
+
+  echo -n "
 Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
 if mission filename changed remember to change ${a3instdir}/a3master/cfg/a3indi1.cfg
 and update template to:
@@ -153,7 +152,6 @@ class mission1
                 };
 
 "
-  fi
 fi
 
 # reset the file permissions in a3master
