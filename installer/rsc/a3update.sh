@@ -171,6 +171,7 @@ Updating @aceserver mod...
   sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
   sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
   sudo -u $useradm ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
+fi
 
 # install/update Antistasi Companion Mod (@dgc_fiaveh)
 echo -n "
