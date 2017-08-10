@@ -129,7 +129,7 @@ Moving ${antistasimission} to ${a3instdir}/a3master/mpmissions/ ...
   echo -n "
 Removing ${antistasirar}...
   "
-  sudo rm -f ${a3instdir}/${antistasirar}
+  sudo -u $useradm rm -f ${a3instdir}/${antistasirar}
 
   echo -n "
 Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
@@ -161,12 +161,12 @@ find -L ${a3instdir}/a3master/_mods/ -depth -execdir rename -f 's/(.*)\/([^\/]*)
 echo $' - DONE\n'
 
 # install/update @aceserver mod if @ace found
-if [ -d "${a3instdir}/a3master/_mods/@ace"]; then
+if [ -d "${a3instdir}/a3master/_mods/@ace" ]; then
   echo -n "
 Updating @aceserver mod...
 "
   if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
-    sudo rm -rf ${a3instdir}/a3master/_mods/@aceserver
+    sudo -u $useradm rm -rf ${a3instdir}/a3master/_mods/@aceserver
   fi
   sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
   sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
@@ -175,10 +175,10 @@ fi
 
 # install/update Antistasi Companion Mod (@dgc_fiaveh)
 echo -n "
+
 Install/update Antistasi Companion Mod (@dgc_fiaveh)?
 ( http://www.a3antistasi.com/mod at Antistasi Altis - Extras )
 Leave empty if not wanted.
-
 
 
 Enter dgc_fiaveh download url: "
@@ -197,7 +197,7 @@ if [ "$dgc_fiaveh_url" != "" ]; then
 Moving @dgc_fiaveh to ${a3instdir}/a3master/_mods/ ...
 "
   if [ -d "${a3instdir}/a3master/_mods/@dgc_fiaveh" ]; then
-    sudo rm -rf ${a3instdir}/a3master/_mods/@dgc_fiaveh
+    sudo -u $useradm rm -rf ${a3instdir}/a3master/_mods/@dgc_fiaveh
   else
     sudo -u $useradm bash -c "echo \"dgc_fiaveh      local           smod    1 0 0 0\" >> ${a3instdir}/scripts/modlist.inp"
   fi
@@ -205,7 +205,7 @@ Moving @dgc_fiaveh to ${a3instdir}/a3master/_mods/ ...
   sudo -u $useradm chmod -R 755 ${a3instdir}/a3master/_mods/@dgc_fiaveh
   echo -n "
 Removing $dgcrar..."
-  sudo rm -f ${a3instdir}/${dgcrar}
+  sudo -u $useradm rm -f ${a3instdir}/${dgcrar}
 fi
 
 # (re)create the folders of the instances
