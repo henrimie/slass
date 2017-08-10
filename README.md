@@ -146,10 +146,12 @@ class mission1</br>
 **IV. Modlists**
 - **No mods / vanilla**</br>
 Self explanatory.</br>
-- **Basic modlist:** <sup>(<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=1106546686">Basic Mod collection for easy subscription.</a>)</sup></br>
+- **Basic modlist:**</br></br>
+<sup>(<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=1106546686">Basic Mod collection for easy subscription.</a>)</sup></br></br>
 <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=450814997">CBA_A3</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843425103">RHSAFRF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843577117">RHSUSAF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843593391">RHSGREF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=843632231">RHSSAF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=463939057">ACE</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=773131200">ACE Compat - RHSAFRF</a>,</br>
 <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=773125288">ACE Compat - RHSUSAF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=884966711">ACE Compat - RHSGREF</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=437407341">XLA_FixedArsenal</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=333310405">Enhanced Movement</a>
-- **Extended modlist (added to basic modlist):**  <sup>(<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=1106548354">Extended Mod collection for easy subscription.</a>)</sup></br>
+- **Extended modlist (added to basic modlist):**</br></br>
+<sup>(<a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=1106548354">Extended Mod collection for easy subscription.</a>)</sup></br></br>
 <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=814650855">Dusty's RHS</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=804952618">Retexture Project</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=861133494">JSRS SOUNDMOD</a>,</br>
 <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=863393819">JSRS - Additional Weap Sounds</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=870212593">JSRS - RHS - Vehicles Sound Patch</a>,</br>
 <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=872471132">JSRS - RHS - Weapons Sound Patch</a>, <a target="_blank" href="https://steamcommunity.com/sharedfiles/filedetails/?id=767380317">Blastcore</a>
