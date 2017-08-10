@@ -59,8 +59,9 @@ Antistasi Altis, CBA_A3, RHSAFRF, RHSUSAF, RHSGREF, RHSSAF, ace, ACE Compat - RH
 ACE Compat - RHSUSAF, ACE Compat - RHSGREF
 
 Extended modlist (inludes basic modlist):
-XLA_FixedArsenal, Enhanced Movement, JSRS SOUNDMOD, JSRS - Additional Weap Sounds,
-JSRS - RHS - Vehicles Sound Patch, JSRS - RHS - Weapons Sound Patch, Blastcore
+XLA_FixedArsenal, Enhanced Movement, Dusty's RHS, Retexture Project, JSRS SOUNDMOD,
+JSRS - Additional Weap Sounds, JSRS - RHS - Vehicles Sound Patch,
+JSRS - RHS - Weapons Sound Patch, Blastcore
 
 Install extended modlist? (y/n)"
 read extmodlist

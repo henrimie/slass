@@ -15,16 +15,18 @@ read user
 echo "Please enter the Steam-Password for $user:"
 read -s pw
 
-echo -n "
+if [[ -z $debug ]]; then
+  echo -n "
 ... halt servers
 "
-# halt server(s)
-for index in $(seq 4); do
-  sudo service a3srv${index} stop
-	echo -n " #${index}"
-	sleep 2s
-done
-echo $' - DONE\n'
+  # halt server(s)
+  for index in $(seq 4); do
+    sudo service a3srv${index} stop
+	  echo -n " #${index}"
+	  sleep 2s
+  done
+  echo $' - DONE\n'
+fi
 
 echo -n "
 If you use two-factor authentication this script will pause at: login USERNAME ----,
