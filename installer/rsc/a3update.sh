@@ -185,32 +185,23 @@ if [ "$dgc_fiaveh_url" != "" ]; then
   dgcrar=${$dgc_fiaveh_url##*/}
   cd $a3instdir
   echo -n "
-... downloading $dgcrar
 
+... downloading $dgcrar
 "
   sudo -u $useradm wget -nv $dgc_fiaveh_url
   sudo -u $useradm unrar x $dgcrar
   echo -n "
 Moving @dgc_fiaveh to ${a3instdir}/a3master/_mods/ ...
-
 "
   if [ -d "${a3instdir}/a3master/_mods/@dgc_fiaveh" ]; then
     sudo rm -rf ${a3instdir}/a3master/_mods/@dgc_fiaveh
+  else
+    sudo -u $useradm bash -c "echo \"dgc_fiaveh      local           smod    1 0 0 0\" >> ${a3instdir}/scripts/modlist.inp"
   fi
   sudo -u $useradm mv ${a3instdir}/@dgc_fiaveh ${a3instdir}/a3master/_mods/
   sudo -u $useradm chmod -R 755 ${a3instdir}/a3master/_mods/@dgc_fiaveh
   echo -n "
-Removing $dgcrar...
-
-If this is the first time installing @dgc_fiaveh remember to edit
-
-${a3instdir}/scripts/modlist.inp
-
-and add this line:
-dgc_fiaveh      local           smod    1 0 0 0
-
-and restart the server and hc's
-"
+Removing $dgcrar..."
   sudo rm -f ${a3instdir}/${dgcrar}
 fi
 
