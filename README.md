@@ -144,12 +144,12 @@ class mission1</br>
     a3srvpass=empty or desired password
 
 **IV. Modlists**
-- No mods / vanilla</br>
+- **No mods / vanilla**</br>
 Self explanatory.</br>
-- Basic modlist:</br>
+- **Basic modlist:**</br>
 CBA_A3, RHSAFRF, RHSUSAF, RHSGREF, RHSSAF, ACE, ACE Compat - RHSAFRF,</br>
 ACE Compat - RHSUSAF, ACE Compat - RHSGREF, XLA_FixedArsenal, Enhanced Movement
-- Extended modlist (added to basic modlist):</br>
+- **Extended modlist (added to basic modlist):**</br>
 Dusty's RHS, Retexture Project, JSRS SOUNDMOD,</br>
 JSRS - Additional Weap Sounds, JSRS - RHS - Vehicles Sound Patch,</br>
 JSRS - RHS - Weapons Sound Patch, Blastcore
