@@ -140,7 +140,6 @@ Removing ${antistasirar}...
   "
   sudo rm -f ${a3instdir}/${antistasirar}
 
-
   echo -n "
 Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
 if mission filename changed remember to change ${a3instdir}/a3master/cfg/a3indi1.cfg
@@ -152,6 +151,7 @@ class mission1
                 };
 
 "
+  sleep 10s
 fi
 
 # reset the file permissions in a3master
@@ -181,10 +181,50 @@ Updating @aceserver mod...
   sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
   sudo -u $useradm ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
 
+# install/update Antistasi Companion Mod (@dgc_fiaveh)
+echo -n "
+Install/update Antistasi Companion Mod (@dgc_fiaveh)?
+( http://www.a3antistasi.com/mod at Antistasi Altis - Extras )
+Leave empty if not wanted.
+
+Enter dgc_fiaveh download url: "
+read dgc_fiaveh_url
+
+if [ "$dgc_fiaveh_url" != "" ]; then
+  dgcrar=${$dgc_fiaveh_url##*/}
+  cd $a3instdir
+  echo -n "
+... downloading $dgcrar
+
+"
+  sudo -u $useradm wget -nv $dgc_fiaveh_url
+  sudo -u $useradm unrar x $dgcrar
+  echo -n "
+Moving @dgc_fiaveh to ${a3instdir}/a3master/_mods/ ...
+
+"
+  if [ -d "${a3instdir}/a3master/_mods/@dgc_fiaveh" ]; then
+    sudo rm -rf ${a3instdir}/a3master/_mods/@dgc_fiaveh
+  fi
+  sudo -u $useradm mv ${a3instdir}/@dgc_fiaveh ${a3instdir}/a3master/_mods/
+  sudo -u $useradm chmod -R 755 ${a3instdir}/a3master/_mods/@dgc_fiaveh
+  echo -n "
+Removing $dgcrar...
+
+If this is the first time installing @dgc_fiaveh remember to edit
+
+${a3instdir}/scripts/modlist.inp
+
+and add this line:
+dgc_fiaveh      local           smod    1 0 0 0
+"
+  sudo rm -f ${a3instdir}/${dgcrar}
+fi
+
+# (re)create the folders of the instances
 echo -n "
 (re)creating the folders of the instances...
 "
-# (re)create the folders of the instances
 for index in $(seq 4); do
   if [ -d "${a3instdir}/a3srv${index}" ]; then
     rm -rf $a3instdir/a3srv${index}
