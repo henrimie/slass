@@ -169,16 +169,17 @@ echo -n "
 find -L ${a3instdir}/a3master/_mods/ -depth -execdir rename -f 's/(.*)\/([^\/]*)/$1\/\L$2/' {} \;
 echo $' - DONE\n'
 
-# update @aceserver mod
-echo -n "
+# install/update @aceserver mod if @ace found
+if [ -d "${a3instdir}/a3master/_mods/@ace"]; then
+  echo -n "
 Updating @aceserver mod...
 "
-if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
-  sudo rm -rf ${a3instdir}/a3master/_mods/@aceserver
-fi
-sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
-sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
-sudo -u $useradm ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
+  if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
+    sudo rm -rf ${a3instdir}/a3master/_mods/@aceserver
+  fi
+  sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver --mode=775
+  sudo -u $useradm mkdir ${a3instdir}/a3master/_mods/@aceserver/addons --mode=775
+  sudo -u $useradm ln -s ${a3instdir}/a3master/_mods/@ace/optionals/ace_server.pbo ${a3instdir}/a3master/_mods/@aceserver/addons/
 
 echo -n "
 (re)creating the folders of the instances...

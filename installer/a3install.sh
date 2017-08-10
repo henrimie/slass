@@ -54,17 +54,26 @@ if [ $mkuser == "y" ]; then
 fi
 
 echo -n "
-Basic modlist:
-Antistasi Altis, CBA_A3, RHSAFRF, RHSUSAF, RHSGREF, RHSSAF, ace, ACE Compat - RHSAFRF,
-ACE Compat - RHSUSAF, ACE Compat - RHSGREF
+Choose to install with a pre-configured modset or leave the server vanilla with only
+Antistasi mission downloaded and installed.
 
-Extended modlist (inludes basic modlist):
-XLA_FixedArsenal, Enhanced Movement, Dusty's RHS, Retexture Project, JSRS SOUNDMOD,
+Install with modset? (y/n)"
+read mods
+
+if [ $mods == "y" ]; then
+	echo -n "
+Basic modlist:
+CBA_A3, RHSAFRF, RHSUSAF, RHSGREF, RHSSAF, ACE, ACE Compat - RHSAFRF,
+ACE Compat - RHSUSAF, ACE Compat - RHSGREF, XLA_FixedArsenal, Enhanced Movement
+
+Extended modlist (added to basic modlist):
+Dusty's RHS, Retexture Project, JSRS SOUNDMOD,
 JSRS - Additional Weap Sounds, JSRS - RHS - Vehicles Sound Patch,
 JSRS - RHS - Weapons Sound Patch, Blastcore
 
 Install extended modlist? (y/n)"
-read extmodlist
+	read extmodlist
+fi
 
 echo -n "
 Building filestructure...
@@ -101,20 +110,27 @@ sudo -u $useradm mkdir ${a3instdir}/a3master/cfg --mode=775
 sudo -u $useradm mkdir ${a3instdir}/a3master/log --mode=775
 sudo -u $useradm mkdir ${a3instdir}/scripts/logs --mode=775
 sudo -u $useradm mkdir ${a3instdir}/a3master/userconfig --mode=775
-sudo -u $useradm mkdir ${a3instdir}/a3master/userconfig/ace --mode=775
 
 # copy files
 sudo -u $useradm cp ${a3instdir}/installer/rsc/servervars.cfg ${a3instdir}/scripts/service/
 sudo -u $useradm chmod 644 ${a3instdir}/scripts/service/servervars.cfg
-if [ $extmodlist == "y" ]; then
-	sudo -u $useradm cp ${a3instdir}/installer/rsc/modlistextd.inp ${a3instdir}/scripts/modlist.inp
-	sudo -u $useradm chmod 664 ${a3instdir}/scripts/modlist.inp
+if [ $mods == "y" ]; then
+	sudo -u $useradm touch ${a3instdir}/a3master/userconfig/cba_settings.sqf
+	sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/cba_settings.sqf
+	sudo -u $useradm cp ${a3instdir}/installer/rsc/aceserverconfig.hpp ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
+	sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
+	if [ $extmodlist == "y" ]; then
+		sudo -u $useradm cp ${a3instdir}/installer/rsc/modlistextd.inp ${a3instdir}/scripts/modlist.inp
+	else
+		sudo -u $useradm cp ${a3instdir}/installer/rsc/modlist.inp ${a3instdir}/scripts/
+	fi
 else
-	sudo -u $useradm cp ${a3instdir}/installer/rsc/modlist.inp ${a3instdir}/scripts/
-	sudo -u $useradm chmod 664 ${a3instdir}/scripts/modlist.inp
+	sudo -u $useradm touch ${a3instdir}/scripts/modlist.inp
 fi
+sudo -u $useradm chmod 664 ${a3instdir}/scripts/modlist.inp
 sudo -u $useradm cp ${a3instdir}/installer/rsc/restartall.sh ${a3instdir}/scripts/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/restartall.sh
+sudo -u $useradm chmod +x ${a3instdir}/scripts/restartall.sh
 if [ -f "${a3instdir}/restartall" ]; then
 	sudo rm -f ${a3instdir}/restartall
 fi
@@ -125,11 +141,6 @@ sudo -u $useradm cp ${a3instdir}/installer/rsc/a3srviHC.sh ${a3instdir}/scripts/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/a3srviHC.sh
 sudo -u $useradm cp ${a3instdir}/installer/rsc/prepserv.sh ${a3instdir}/scripts/service/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/prepserv.sh
-sudo -u $useradm touch ${a3instdir}/a3master/userconfig/cba_settings.sqf
-sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/cba_settings.sqf
-sudo -u $useradm cp ${a3instdir}/installer/rsc/aceserverconfig.hpp ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
-sudo -u $useradm chmod 754 ${a3instdir}/a3master/userconfig/ace/serverconfig.hpp
-
 sudo -u $useradm touch ${a3instdir}/a3master/cfg/a3common.cfg
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/a3common.cfg
 sudo -u $useradm bash -c "echo \"//
@@ -249,6 +260,8 @@ sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/a3update.sh >> ${a3inst
 
 sudo -u $useradm touch ${a3instdir}/scripts/runupdate.sh
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/runupdate.sh
+sudo -u $useradm chmod +x ${a3instdir}/scripts/runupdate.sh
+sudo -u $useradm ln -s ${a3instdir}/scripts/runupdate.sh ${a3instdir}/runupdate
 sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/runupdate.sh > ${a3instdir}/scripts/runupdate.sh"
 sudo -u $useradm bash -c "echo \"
 
@@ -260,7 +273,6 @@ exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
 if [ -f "${a3instdir}/runupdate" ]; then
 	sudo rm -f ${a3instdir}/runupdate
 fi
-sudo -u $useradm ln -s ${a3instdir}/scripts/runupdate.sh ${a3instdir}/runupdate
 
 sudo bash -c "echo \"
 %${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh

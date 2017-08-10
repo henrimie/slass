@@ -10,10 +10,10 @@ ace_comp_rhsus  773125288       mod     1 1 1 1
 ace_comp_rhsgf  884966711       mod     1 1 1 1
 xla_fixedarsen  437407341       mod     1 1 1 1
 enhanced_movem  333310405       mod     1 1 1 1
-dustys_rhs      814650855       cmod    0 1 1 1
-retext_project  804952618       cmod    0 1 1 1
-jsrs_sm         861133494       cmod    0 1 1 1
-jsrs_add_wep    863393819       cmod    0 1 1 1
-jsrs_rhs_veh    870212593       cmod    0 1 1 1
-jsrs_rhs_wep    872471132       cmod    0 1 1 1
-blastcore       767380317       cmod    0 1 1 1
+dustys_rhs      814650855       cmod    1 0 0 0
+retext_project  804952618       cmod    1 0 0 0
+jsrs_sm         861133494       cmod    1 0 0 0
+jsrs_add_wep    863393819       cmod    1 0 0 0
+jsrs_rhs_veh    870212593       cmod    1 0 0 0
+jsrs_rhs_wep    872471132       cmod    1 0 0 0
+blastcore       767380317       cmod    1 0 0 0

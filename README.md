@@ -48,7 +48,7 @@ Refer to the file **doc/folder_struc.png** for a general overview where to find 
 File ownership in a3master will be reset to avoid issues from remote upload of mission files etc. The server and headless client instances are then stopped, and an update (or install, if not already there) of Arma3 and the mods is performed. After the update, the file rights in a3master are reset, all mods are renamed to lower case (avoids issues with crashing mods on linux) and the folders of the instances are cleared and rebuild. Finally, the sever and headless clients are booted back up.
 
 **What happens on start/restart**
-On start, all config files are newly read in to consider possible config edits. The config file **modlist.inp** defines the mods to load, pre-configured by the installer for Antistasi experience (you can choose the basic set or the extended set with audio and visual mods supported by antistasi). Depending on that config the startup options are build. Then the script will generate the config file for the respective instance, and copy the individually needed set of **.bikey - files** into its **keys** folder. Logfiles older than {deldays} **(servervars.cfg)** will be deleted, a new logfile will be written. Afterwards, the instance will boot, being monitored by a watchdog process. The watchdog reboots the server if it crashes. The watchdog is also active if the server stopped externally, i.e. you can issue the #shutdown command ingame to read an updated server config.
+On start, all config files are newly read in to consider possible config edits. The config file **modlist.inp** defines the mods to load, pre-configured by the installer for Antistasi experience (you can choose the basic set with realism enhancements etc. or the extended set with addittional audio and visual mods supported by Antistasi, more at Appendix IV. at the bottom of the readme). Depending on that config the startup options are build. Then the script will generate the config file for the respective instance, and copy the individually needed set of **.bikey - files** into its **keys** folder. Logfiles older than {deldays} **(servervars.cfg)** will be deleted, a new logfile will be written. Afterwards, the instance will boot, being monitored by a watchdog process. The watchdog reboots the server if it crashes. The watchdog is also active if the server stopped externally, i.e. you can issue the #shutdown command ingame to read an updated server config.
 
 ## Installation
 
@@ -56,7 +56,7 @@ On start, all config files are newly read in to consider possible config edits. 
 - ensure you have the root password for your machine at hand
 - create an arbitrary folder for the servers, we suggest **/srv/arma3/**
 - copy the script folder "installer" in that folder, e.g. **/srv/arma3/installer**
-- open the file install.cfg inside the folder "installer", change the user informations therein to your wishes. The users can be created by the script, or manually before you start the installation; refer to the commands in **./installer/adddelusr.sh** on how to do so. They will have the following functions</br>
+- open the file **install.cfg** inside the folder "installer", change the user informations therein to your wishes. The users can be created by the script, or manually before you start the installation; refer to the commands in **./installer/adddelusr.sh** on how to do so. They will have the following functions</br>
 -- **useradm** - Is owner of the files in the server folder, can add/delete/modify files and manage servers. You can use your normal user account with sudo privileges for this. Make sure he is in **grpserver** (see below).</br>
 -- **userlnch** - Is the owner of the server process once fired up. For security reasons, he should not be able to get a shell nor become root.
 </br></br>*Use strong Passwords for both users anyway, never hand them out! A server with web access is not a toy!*</br></br>
@@ -68,7 +68,7 @@ ie. for non-beta Antistasi Altis:</br> https://s3.amazonaws.com/files.enjin.com/
 **a3common.cfg** - master config file containing settings common for all server instances.</br>
 **basic.cfg** - loaded as -cfg file by the server process</br>
 **servervars.cfg** - config file setting additional options for the server executable, normally you don't need to edit this</br>
-- determine the mods to install (not necessary by default for Antistasi Server), to do so edit **./installer/rsc/modlist.inp** or **./installer/rsc/modlistextd.inp** . The files have seven columns:</br>
+- determine the mods to install (not necessary by default for Antistasi Server), to do so edit **./installer/rsc/modlist.inp** or **./installer/rsc/modlistextd.inp** depending on if you're going to use the basic or extended modset as the template. The files have seven columns:</br>
 	I. shortname of the mod</br>
 	II. steam-app-id of the mod; if the mod is not in the workshop, insert the word **local**</br>
  	III. mod type; use</br>
@@ -142,3 +142,14 @@ class mission1</br>
     password = "empty or desired password";</br>
 -- **{a3instdir}/scripts/service/servervars.cfg**</br>
     a3srvpass=empty or desired password
+
+**IV. Modlists**
+- No mods / vanilla</br>
+Self explanatory.</br>
+- Basic modlist:</br>
+CBA_A3, RHSAFRF, RHSUSAF, RHSGREF, RHSSAF, ACE, ACE Compat - RHSAFRF,</br>
+ACE Compat - RHSUSAF, ACE Compat - RHSGREF, XLA_FixedArsenal, Enhanced Movement
+- Extended modlist (added to basic modlist):</br>
+Dusty's RHS, Retexture Project, JSRS SOUNDMOD,</br>
+JSRS - Additional Weap Sounds, JSRS - RHS - Vehicles Sound Patch,</br>
+JSRS - RHS - Weapons Sound Patch, Blastcore
