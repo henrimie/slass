@@ -17,7 +17,7 @@ read -s pw
 
 # halt server(s)
 echo -n "
-... halt servers
+... halting servers (if any)
 "
 for index in $(seq 4); do
   sudo service a3srv${index} stop
@@ -127,11 +127,6 @@ Moving ${antistasimission} to ${a3instdir}/a3master/mpmissions/ ...
   sudo -u $useradm mv -f ${a3instdir}/${antistasimission} ${a3instdir}/a3master/mpmissions/
   sudo -u $useradm chmod 755 ${a3instdir}/a3master/mpmissions/${antistasimission}
   echo -n "
-Removing ${antistasirar}...
-  "
-  sudo -u $useradm rm -f ${a3instdir}/${antistasirar}
-
-  echo -n "
 Antistasi mission downloaded and copied to: ${a3instdir}/a3master/mpmissions/${antistasimission}
 if mission filename changed remember to change ${a3instdir}/a3master/cfg/a3indi1.cfg
 and update template to:
@@ -143,6 +138,10 @@ class mission1
 
 "
   sleep 10s
+  echo -n "
+Removing ${antistasirar}...
+  "
+  sudo -u $useradm rm -f ${a3instdir}/${antistasirar}
 fi
 
 # reset the file permissions in a3master
@@ -174,39 +173,40 @@ Updating @aceserver mod...
 fi
 
 # install/update Antistasi Companion Mod (@dgc_fiaveh)
-echo -n "
-
-Install/update Antistasi Companion Mod (@dgc_fiaveh)?
-( http://www.a3antistasi.com/mod at Antistasi Altis - Extras )
-Leave empty if not wanted.
-
-
-Enter dgc_fiaveh download url: "
-read dgc_fiaveh_url
-
-if [ "$dgc_fiaveh_url" != "" ]; then
-  dgcrar=${$dgc_fiaveh_url##*/}
-  cd $a3instdir
-  echo -n "
-
-... downloading $dgcrar
-"
-  sudo -u $useradm wget -nv $dgc_fiaveh_url
-  sudo -u $useradm unrar x $dgcrar
-  echo -n "
-Moving @dgc_fiaveh to ${a3instdir}/a3master/_mods/ ...
-"
-  if [ -d "${a3instdir}/a3master/_mods/@dgc_fiaveh" ]; then
-    sudo -u $useradm rm -rf ${a3instdir}/a3master/_mods/@dgc_fiaveh
-  else
-    sudo -u $useradm bash -c "echo \"dgc_fiaveh      local           smod    1 0 0 0\" >> ${a3instdir}/scripts/modlist.inp"
-  fi
-  sudo -u $useradm mv ${a3instdir}/@dgc_fiaveh ${a3instdir}/a3master/_mods/
-  sudo -u $useradm chmod -R 755 ${a3instdir}/a3master/_mods/@dgc_fiaveh
-  echo -n "
-Removing $dgcrar..."
-  sudo -u $useradm rm -f ${a3instdir}/${dgcrar}
-fi
+#echo -n "
+#
+#Install/update Antistasi Companion Mod (@dgc_fiaveh)?
+#( http://www.a3antistasi.com/mod at Antistasi Altis - Extras )
+#Leave empty if not wanted.
+#
+#
+#Enter dgc_fiaveh download url:"
+#read dgc_fiaveh_url
+#
+#if [ "$dgc_fiaveh_url" != "" ]; then
+#  dgcrar=${$dgc_fiaveh_url##*/}
+## -- For some reason this substitution doesn't work :(
+#  cd $a3instdir
+#  echo -n "
+#
+#... downloading $dgcrar
+#"
+#  sudo -u $useradm wget -nv "$dgc_fiaveh_url"
+#  sudo -u $useradm unrar x $dgcrar
+#  echo -n "
+#Moving @dgc_fiaveh to ${a3instdir}/a3master/_mods/ ...
+#"
+#  if [ -d "${a3instdir}/a3master/_mods/@dgc_fiaveh" ]; then
+#    sudo -u $useradm rm -rf ${a3instdir}/a3master/_mods/@dgc_fiaveh
+#  else
+#    sudo -u $useradm bash -c "echo \"dgc_fiaveh      local           smod    1 0 0 0\" >> ${a3instdir}/scripts/modlist.inp"
+#  fi
+#  sudo -u $useradm mv ${a3instdir}/@dgc_fiaveh ${a3instdir}/a3master/_mods/
+#  sudo -u $useradm chmod -R 755 ${a3instdir}/a3master/_mods/@dgc_fiaveh
+#  echo -n "
+#Removing $dgcrar..."
+#  sudo -u $useradm rm -f ${a3instdir}/${dgcrar}
+#fi
 
 # (re)create the folders of the instances
 echo -n "

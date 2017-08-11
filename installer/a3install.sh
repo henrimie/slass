@@ -264,6 +264,9 @@ sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/a3update.sh >> ${a3inst
 sudo -u $useradm touch ${a3instdir}/scripts/runupdate.sh
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/runupdate.sh
 sudo -u $useradm chmod +x ${a3instdir}/scripts/runupdate.sh
+if [ -f "${a3instdir}/runupdate" ]; then
+	sudo rm -f ${a3instdir}/runupdate
+fi
 sudo -u $useradm ln -s ${a3instdir}/scripts/runupdate.sh ${a3instdir}/runupdate
 sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/runupdate.sh > ${a3instdir}/scripts/runupdate.sh"
 sudo -u $useradm bash -c "echo \"
@@ -273,9 +276,6 @@ sudo -iu ${useradm} ${a3instdir}/scripts/a3update.sh
 
 fi
 exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
-if [ -f "${a3instdir}/runupdate" ]; then
-	sudo rm -f ${a3instdir}/runupdate
-fi
 
 sudo bash -c "echo \"
 %${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
