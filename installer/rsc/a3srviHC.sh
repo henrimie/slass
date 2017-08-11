@@ -89,7 +89,7 @@ fi
 #
 restart)
 $0 stop
-sleep 15s
+sleep 25s
 $0 start
 ;;
 #
