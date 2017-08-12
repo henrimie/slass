@@ -121,7 +121,7 @@ In both cases, ensure the **.bikey** file (if one is needed) is in a folder **{a
 Thats simple: Edit what you need to, and restart the a3server.
 
 ## Appendix
-**I. Enter Steam Guard code**
+**I. Enter Steam Email Guard code**
 - run **{a3instdir}/steamcmd/steamcmd.sh**; make sure you run this command as {useradmin} or a {userupdate} for whom the *ln* command has already been applied
 - input **login USERNAME**
 - input the **guard code**
