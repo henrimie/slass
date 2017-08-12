@@ -1,6 +1,7 @@
 . ${basepath}/scripts/service/servervars.cfg
 
-echo -n "This script will remove acsiam Arma 3 Antistasi server and headless
+echo -n "
+This script will remove acsiam Arma 3 Antistasi server and headless
 clients completely. It will remove associated users created at installation,
 remove system services and init-files, empty the Server installation folder
 removing and deleting steamcmd, userconfigs, downloaded mods, local mods.
@@ -21,7 +22,7 @@ echo -n "
 
 The whole ${basepath} folder will be emptied!
 
-${usradm} and ${username} homefolders will be deleted!
+${useradm} and ${username} homefolders will be deleted!
 
 ${profile}.Arma3Profile and ${profile}.vars.Arma3Profile (.vars. contains
 the Antistasi persistent save for your server!!) will be deleted in
