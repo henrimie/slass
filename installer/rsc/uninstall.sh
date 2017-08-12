@@ -3,7 +3,7 @@
 echo -n "
 This script will remove acsiam Arma 3 Antistasi server and headless
 clients completely. It will remove associated users created at installation,
-remove system services and init-files, empty the Server installation folder
+remove system services and init-files, empty the server installation folder
 removing and deleting steamcmd, userconfigs, downloaded mods, local mods.
 
 Are you sure you want to continue? (y/n) "
