@@ -1,4 +1,4 @@
-#del users
+# del users
 if [ -d "/home/${usradm}" ]; then
 	sudo deluser --remove-home $useradm
 fi

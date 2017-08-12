@@ -144,11 +144,20 @@ sudo -u $useradm cp ${a3instdir}/installer/rsc/prepserv.sh ${a3instdir}/scripts/
 sudo -u $useradm chmod 754 ${a3instdir}/scripts/service/prepserv.sh
 sudo -u $useradm touch ${a3instdir}/a3master/cfg/a3common.cfg
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/a3common.cfg
-sudo -u $useradm bash -c "echo \"//
-// More information at: http://community.bistudio.com/wiki/server.cfg
+sudo -u $useradm bash -c "echo -n \"//-------------------------------------------------------------
+//-------          SCRIPTED PART! DO NOT EDIT!          -------
+//-------------------------------------------------------------
+// to edit server passwords edit file:
+// ${a3instdir}/scripts/service/servervars.cfg
 //
-// GLOBAL SETTINGS
-password = \"${a3srvpass}\";						//Password for joining, eg connecting to the server\" >> ${a3instdir}/a3master/cfg/a3common.cfg"
+// More information at: http://community.bistudio.com/wiki/server.cfg
+
+// PASSWORD SETTINGS
+password = "\""${a3srvpass}"\"";                //Password for joining, eg connecting to the server
+passwordAdmin = "\""${a3srvpassadm}"\"";        // Password to become server admin. When you're in Arma MP and connected to the server, type '#login xyz'
+//-------------------------------------------------------------
+//-------             END OF SCRIPTED PART!             -------
+//-------------------------------------------------------------\" > ${a3instdir}/a3master/cfg/a3common.cfg"
 sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/a3common.cfg >> ${a3instdir}/a3master/cfg/a3common.cfg"
 sudo -u $useradm cp ${a3instdir}/installer/rsc/basic.cfg ${a3instdir}/a3master/cfg/
 sudo -u $useradm chmod 664 ${a3instdir}/a3master/cfg/basic.cfg
@@ -193,7 +202,8 @@ sudo bash -c "echo \"
 useradm=${useradm}
 username=${userlnch}
 profile=${grpserver}
-a3srvpass=${a3srvpass}\" >> ${a3instdir}/scripts/service/servervars.cfg"
+a3srvpass=${a3srvpass}
+a3srvadmpass=${a3srvadmpass}\" >> ${a3instdir}/scripts/service/servervars.cfg"
 
 # build SysVinit scripts
 for index in $(seq 4); do
@@ -201,30 +211,27 @@ for index in $(seq 4); do
 		sudo rm -f /etc/init.d/a3srv${index}
 	fi
 # build for host server
+	sudo touch /etc/init.d/a3srv${index}
+	sudo chmod 750 /etc/init.d/a3srv${index}
 	if [ $index == "1" ]; then
-		sudo touch /etc/init.d/a3srv${index}
-		sudo chmod 750 /etc/init.d/a3srv${index}
 		sudo bash -c "echo \"#!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          a3srv${index}\" >> /etc/init.d/a3srv${index}"
-sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
-sudo bash -c "echo \"serverid=${index}
-basepath=${a3instdir}
+	sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
+	sudo bash -c "echo \"serverid=${index}
+	basepath=${a3instdir}
 . ${a3instdir}/scripts/service/a3srvi.sh\" >> /etc/init.d/a3srv${index}"
-sudo update-rc.d a3srv${index} defaults
 	else
 # build for headless clients
-sudo touch /etc/init.d/a3srv${index}
-sudo chmod 750 /etc/init.d/a3srv${index}
-sudo bash -c "echo \"#!/bin/sh
+	sudo bash -c "echo \"#!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          a3srv${index}\" >> /etc/init.d/a3srv${index}"
-sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
-sudo bash -c "echo \"serverid=${index}
-basepath=${a3instdir}
+	sudo bash -c "cat ${a3instdir}/installer/rsc/a3srvi.init >> /etc/init.d/a3srv${index}"
+	sudo bash -c "echo \"serverid=${index}
+	basepath=${a3instdir}
 . ${a3instdir}/scripts/service/a3srviHC.sh\" >> /etc/init.d/a3srv${index}"
-sudo update-rc.d a3srv${index} defaults
 	fi
+sudo update-rc.d a3srv${index} defaults
 done
 
 echo -n "
@@ -257,8 +264,8 @@ sudo -u $useradm chmod 744 ${a3instdir}/scripts/a3update.sh
 sudo -u $useradm bash -c "echo \"#!/bin/bash
 
 useradm=$useradm
-steamdir=${a3instdir}/steamcmd
-a3instdir=$a3instdir\" >> ${a3instdir}/scripts/a3update.sh"
+a3instdir=$a3instdir
+steamdir=${a3instdir}/steamcmd\" >> ${a3instdir}/scripts/a3update.sh"
 sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/a3update.sh >> ${a3instdir}/scripts/a3update.sh"
 
 sudo -u $useradm touch ${a3instdir}/scripts/runupdate.sh
@@ -269,17 +276,11 @@ if [ -f "${a3instdir}/runupdate" ]; then
 fi
 sudo -u $useradm ln -s ${a3instdir}/scripts/runupdate.sh ${a3instdir}/runupdate
 sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/runupdate.sh > ${a3instdir}/scripts/runupdate.sh"
-sudo -u $useradm bash -c "echo \"
-
-chown -R ${useradm}:${grpserver} ${a3instdir}/a3master
-sudo -iu ${useradm} ${a3instdir}/scripts/a3update.sh
-
+sudo -u $useradm bash -c "echo \"  chown -R ${useradm}:${grpserver} ${a3instdir}/a3master
+  sudo -iu ${useradm} ${a3instdir}/scripts/a3update.sh
 fi
-exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
 
-sudo bash -c "echo \"
-%${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
-\" >> /etc/sudoers"
+exit 0\" >> ${a3instdir}/scripts/runupdate.sh"
 
 # request download
 echo -n "
@@ -289,16 +290,16 @@ echo -n "
 
 Installation is now prepared.
 
+You may want to add the line
+%${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh, ${a3instdir}/scripts/restartall.sh, ${a3instdir}/scripts/uninstall.sh
+to sudoers with the 'visudo' command after the download. Consider reading the wiki/manpage on visudo beforehand.
+
 You need to execute the command
 ln -s /home/${useradm}/Steam /home/UPDATEUSER/Steam
 once for every user you want to enable to run the update script.
 
 If you choose to abort now, you can still continue later by running the A3-update script.
 Begin download of A3? (y/n)? "
-
-#You may want to add the line
-#%${grpserver}      ALL=NOPASSWD: /usr/sbin/service a3srv[1-4] *, ${a3instdir}/scripts/runupdate.sh
-#to sudoers with the visudo command after the download. Consider reading the wiki/manpage on visudo beforehand.
 
 read goinst
 if [ $goinst != "y" ]; then
@@ -307,6 +308,17 @@ fi
 
 # install A3
 sudo -iu $useradm ${a3instdir}/scripts/a3update.sh $antistasi_download_url
+
+# create uninstaller
+echo "... creating uninstaller at ${a3instdir}/scripts/uninstall.sh
+"
+sudo -u $useradm touch ${a3instdir}/scripts/uninstall.sh
+sudo -u $useradm chmod 754 ${a3instdir}/scripts/uninstall.sh
+sudo -u $useradm bash -c "echo \"#!/bin/bash
+
+# read settings
+basepath=${a3instdir}\" >> ${a3instdir}/scripts/uninstall.sh"
+sudo -u $useradm bash -c "cat ${a3instdir}/installer/rsc/uninstall.sh >> ${a3instdir}/scripts/uninstall.sh"
 
 echo -n "
  - ALL DONE

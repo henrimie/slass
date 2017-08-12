@@ -16,9 +16,8 @@ echo "Please enter the Steam-Password for $user:"
 read -s pw
 
 # halt server(s)
-echo -n "
-... halting servers (if any)
-"
+echo "
+... halting servers (if any) "
 for index in $(seq 4); do
   sudo service a3srv${index} stop
   echo -n " #${index}"
@@ -38,9 +37,8 @@ fi
 echo "quit" >> $tmpfile
 
 # update game
-echo -n "
-Updating Arma 3...
-"
+echo "
+Updating Arma 3..."
 ${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----\n\nEnter two-factor code if used:/g" &
 steampid=$!
 wait $steampid
@@ -76,18 +74,16 @@ done < ${a3instdir}/scripts/modlist.inp
 echo "quit"  >> $tmpfile
 
 # update workshop mods
-echo -n "
-Updating mods...
-"
+echo "
+Updating mods..."
 ${steamdir}/steamcmd.sh +runscript $tmpfile | sed -u "s/${pw}/----\n\nEnter two-factor code if used:/g" &
 steampid=$!
 wait $steampid
 rm $tmpfile
 
 # (re)make symlinks to the mods
-echo -n "
-(re)making symlinks to mods...
-"
+echo "
+(re)making symlinks to mods..."
 find ${a3instdir}/a3master/_mods/ -maxdepth 1 -type l -delete
 while read line; do
   appid=$(echo $line | awk '{ printf "%s", $2 }')
@@ -108,9 +104,8 @@ done < ${a3instdir}/scripts/modlist.inp
 
 # download and install/update/change Antistasi mission
 if [[ $antistasi_download_url ]]; then
-  echo -n "
-Updating/changing Antistasi mission...
-"
+  echo "
+Updating/changing Antistasi mission..."
   antistasirar=${antistasi_download_url##*/}
   antistasimission=${antistasirar%.rar}.pbo
   cd $a3instdir
@@ -161,9 +156,8 @@ echo $' - DONE\n'
 
 # install/update @aceserver mod if @ace found
 if [ -d "${a3instdir}/a3master/_mods/@ace" ]; then
-  echo -n "
-Updating @aceserver mod...
-"
+  echo "
+Updating @aceserver mod..."
   if [ -d "${a3instdir}/a3master/_mods/@aceserver" ]; then
     sudo -u $useradm rm -rf ${a3instdir}/a3master/_mods/@aceserver
   fi
@@ -185,7 +179,7 @@ fi
 #
 #if [ "$dgc_fiaveh_url" != "" ]; then
 #  dgcrar=${$dgc_fiaveh_url##*/}
-## -- For some reason this substitution doesn't work :(
+################# -- For some reason this substitution doesn't work :(
 #  cd $a3instdir
 #  echo -n "
 #
@@ -209,9 +203,8 @@ fi
 #fi
 
 # (re)create the folders of the instances
-echo -n "
-(re)creating the folders of the instances...
-"
+echo "
+(re)creating the folders of the instances..."
 for index in $(seq 4); do
   if [ -d "${a3instdir}/a3srv${index}" ]; then
     rm -rf $a3instdir/a3srv${index}
@@ -222,9 +215,30 @@ for index in $(seq 4); do
 	mkdir $a3instdir/a3srv${index}/keys --mode=775
 done
 
-echo -n "
-... starting the server and headless clients
-"
+# re-creating the first lines of a3common.cfg in case a password was
+# changed in servervars.cfg
+. $a3instdir/scripts/service/servervars.cfg
+tmpfile=$(mktemp)
+sudo -u $useradm tail -n +15 <${a3instdir}/a3master/cfg/a3common.cfg >> $tmpfile
+sudo -u $useradm bash -c "echo -n \"//-------------------------------------------------------------
+//-------          SCRIPTED PART! DO NOT EDIT!          -------
+//-------------------------------------------------------------
+// to edit server passwords edit file:
+// ${a3instdir}/scripts/service/servervars.cfg
+//
+// More information at: http://community.bistudio.com/wiki/server.cfg
+
+// PASSWORD SETTINGS
+password = "\""${a3srvpass}"\"";                //Password for joining, eg connecting to the server
+passwordAdmin = "\""${a3srvpassadm}"\"";        // Password to become server admin. When you're in Arma MP and connected to the server, type '#login xyz'
+//-------------------------------------------------------------
+//-------             END OF SCRIPTED PART!             -------
+//-------------------------------------------------------------\" > ${a3instdir}/a3master/cfg/a3common.cfg"
+sudo -u $useradm bash -c "cat $tmpfile >> ${a3instdir}/a3master/cfg/a3common.cfg"
+rm $tmpfile
+
+echo "
+... starting the server and headless clients"
 # bring server(s) back up
 for index in $(seq 4); do
         sudo service a3srv${index} start

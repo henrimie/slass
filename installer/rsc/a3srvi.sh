@@ -1,4 +1,4 @@
-#read server settings
+# read server settings
 . ${basepath}/scripts/service/servervars.cfg
 
 # set path variables
@@ -87,7 +87,7 @@ fi
 #
 restart)
 $0 stop
-sleep 25s
+sleep 15s
 $0 start
 ;;
 #

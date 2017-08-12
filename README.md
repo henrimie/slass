@@ -61,9 +61,10 @@ On start, all config files are newly read in to consider possible config edits. 
 -- **userlnch** - Is the owner of the server process once fired up. For security reasons, he should not be able to get a shell nor become root.
 </br></br>*Use strong Passwords for both users anyway, never hand them out! A server with web access is not a toy!*</br></br>
 -- **grpserver** - a user group in which both preceding noted users must be, preferably as initial-group. Add additional users to that group, to allow them to make basic maintenance of the gameserver (update, mod/mission install, restart, cfg changes)</br>
--- **a3srvpass** - Password (if desired, can be left empty) for joining your to be created Arma 3 Antistasi server
--- **antistasi_download_url** - URL to be used for Antistasi download. Check latest from <a target="_blank" href="http://www.a3antistasi.com/mod">http://www.a3antistasi.com/mod</a></br>
-ie. for non-beta Antistasi Altis:</br> https://s3.amazonaws.com/files.enjin.com/1218665/Antistasi%20Game%20Files/ALTIS/public_versions/Antistasi.Altis.rar
+-- **a3srvpass** - Password (if desired, can be left empty) for joining your to be created Arma 3 Antistasi server</br>
+-- **a3srvpassadm** - Password for gaining Admin rights (**changing is strongly advised**) with chat message (ie. **#login ChangeME**) on your to be created Arma 3 Antistasi server</br>
+-- **antistasi_download_url** - URL to use for Antistasi mission download. Check latest from <a target="_blank" href="http://www.a3antistasi.com/mod">http://www.a3antistasi.com/mod</a></br>
+ie. for non-beta Antistasi Altis (as of writing):</br> https://s3.amazonaws.com/files.enjin.com/1218665/Antistasi%20Game%20Files/ALTIS/public_versions/Antistasi.Altis.rar
 - prepare the server config files in **./installer/rsc**</br>
 **a3common.cfg** - master config file containing settings common for all server instances.</br>
 **basic.cfg** - loaded as -cfg file by the server process</br>
