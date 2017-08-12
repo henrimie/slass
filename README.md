@@ -134,7 +134,7 @@ obviously replacing {antistasi_download_url} with your desired Antistasi mission
 and update template to:</br></br>
 class mission1</br>
                 {</br>
-                template = {antistasi_mission_file_without_.pbo_ending};</br>
+                template = {**antistasi_mission_file_without_.pbo_ending**};</br>
                 };
 
 **III. Changing Arma 3 server passwords**
