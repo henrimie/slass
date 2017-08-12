@@ -139,8 +139,8 @@ class mission1</br>
 
 **III. Changing Arma 3 server passwords**
 - Edit **{a3instdir}/scripts/service/servervars.cfg**</br>
--- a3srvpass - Password for joining the Arma server</br>
--- a3srvpassadm - Password for gaining Admin rights to the Arma server
+-- a3srvpass - Password for joining the server</br>
+-- a3srvpassadm - Password for gaining admin rights to the server
 
 **IV. Modlists**
 - **No mods / vanilla**</br>
