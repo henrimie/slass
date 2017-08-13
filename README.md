@@ -32,7 +32,6 @@ The acsiam Arma 3 Antistasi Server Script
 - provides a simple way to have an almighty admin and a maintance user, who can update/install mods, and add missions, but not fumble around in the important scripts
 
 ## How it works
-
 **Basic Structure**
 The script will generate a master installation (a3master), that will never be started. Using symlinks, it will build one server instance and three headless client instances out of this master installation. The instances are later run as a system service (SysVInit). The whole set of server files, including the mission repository (mpmissions folder) and *.Arma3Profile is being shared among the instances, but the instances use individual config files. A script will manage the mods and their keys to load.</br>
 
@@ -44,7 +43,7 @@ All instances will share</br>
 - a common logfile folder
 
 **What happens on installation**
-You begin by putting the script folder **installer** into an arbitrary folder on your system (ie. /srv/arma3). Upon start, the script will then establish an Arma3 installation inside that arbitrary folder. Depending on you installation path, it will build individual config and script files for your server, headless clients, install steamcmd, set the required file ownerships and rights, and install the servers as a system service. The installation finishes with an update of Arma3 and the mods. Lastly the installation donwloads a copy of Antistasi and copies it over to the mission repository.
+You begin by putting the script folder **installer** into an arbitrary folder on your system (ie. /srv/arma3). Upon start, the script will then establish an Arma3 installation inside that arbitrary folder. Depending on you installation path, it will build individual config and script files for your server, headless clients, install steamcmd, set the required file ownerships and rights, and install the servers as a system service. The installation finishes with an update of Arma3 and the mods. Lastly the installation donwloads a copy of Antistasi and copies it over to the mission repository. Lastly an uninstall script will be created.
 Refer to the file **doc/folder_struc.png** for a general overview where to find the files and what they do (original <a target="_blank" href="https://github.com/joka-de/slass">slaas</a> folder structure, doesn't have acsiam modifications).
 
 **What happens on update**
@@ -54,7 +53,6 @@ File ownership in a3master will be reset to avoid issues from remote upload of m
 On start, all config files are newly read in to consider possible config edits. The config file **modlist.inp** defines the mods to load, pre-configured by the installer for Antistasi experience (you can choose the basic set with realism enhancements etc. or the extended set with addittional audio and visual mods supported by Antistasi, more at Appendix IV. at the bottom of the readme). Depending on that config the startup options are build. Then the script will generate the config file for the respective instance, and copy the individually needed set of **.bikey - files** into its **keys** folder. Logfiles older than {deldays} **(servervars.cfg)** will be deleted, a new logfile will be written. Afterwards, the instance will boot, being monitored by a watchdog process. The watchdog reboots the server if it crashes. The watchdog is also active if the server stopped externally, i.e. you can issue the #shutdown command ingame to read an updated server config.
 
 ## Installation
-
 **1. Prerequisites**
 - ensure you have the root password for your machine at hand
 - create an arbitrary folder for the servers, we suggest **/srv/arma3/**
@@ -123,6 +121,10 @@ In both cases, ensure the **.bikey** file (if one is needed) is in a folder **{a
 **3. Edit server configs**</br>
 Thats simple: Edit what you need to, and restart the a3server.
 
+## Uninstallation
+
+- run **sudo ./{a3instdir}/scripts/uninstall.sh**
+
 ## Appendix
 **I. Enter Steam Email Guard code**
 - run **{a3instdir}/steamcmd/steamcmd.sh**; make sure you run this command as {useradmin} or a {userupdate} for whom the *ln* command has already been applied
@@ -131,7 +133,7 @@ Thats simple: Edit what you need to, and restart the a3server.
 - input **exit**
 
 **II. Updating or changing the Antistasi mission file**
-- run **sudo {a3instdir}/arma3/scripts/runupdate.sh {antistasi_download_url}**</br>
+- run **sudo ./{a3instdir}/runupdate {antistasi_download_url}**</br>
 obviously replacing {antistasi_download_url} with your desired Antistasi mission .rar url.
 - if **mission filename** changed remember to change **{a3instdir}/a3master/cfg/a3indi1.cfg**</br>
 and update template to:</br></br>
