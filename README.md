@@ -124,6 +124,7 @@ Thats simple: Edit what you need to, and restart the a3server.
 ## Uninstallation
 
 - run **sudo ./{a3instdir}/scripts/uninstall.sh**
+- read instructions
 
 ## Appendix
 **I. Enter Steam Email Guard code**
