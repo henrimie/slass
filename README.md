@@ -11,7 +11,10 @@
 <p align="center"><a target="_blank" href="https://github.com/henrimie/acsiam/releases/">Download latest version.</a></p>
 
 ## General
-This script will greatly ease the installation and management of an <a target="_blank" href="http://www.a3antistasi.com/mod">Arma3 Antistasi</a> server including required mods from the Steam workshop.</br></br>This is not a one-click-get-a-server script. Its usage is simple, but do yourself a favor and read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.
+This script will greatly ease the installation and management of an <a target="_blank" href="http://www.a3antistasi.com/mod">Arma3 Antistasi</a> server including required mods from the Steam workshop.</br></br>This is not a one-click-get-a-server script. Its usage is simple, but do yourself a favor and read this manual BEFORE you begin. Really. Basic knowledge of the linux command line usage is assumed.</br>
+</br>
+**It might work with any HC enabled A3 mission, but you propably need to install the server
+as vanilla, without any mods, and if mods are needed, configure them manually.**
 
 ## What it does
 The acsiam Arma 3 Antistasi Server Script
