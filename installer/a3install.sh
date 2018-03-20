@@ -154,7 +154,7 @@ sudo -u $useradm bash -c "echo -n \"//------------------------------------------
 
 // PASSWORD SETTINGS
 password = "\""${a3srvpass}"\"";                //Password for joining, eg connecting to the server
-passwordAdmin = "\""${a3srvpassadm}"\"";        // Password to become server admin. When you're in Arma MP and connected to the server, type '#login xyz'
+passwordAdmin = "\""${a3srvadmpass}"\"";        // Password to become server admin. When you're in Arma MP and connected to the server, type '#login xyz'
 //-------------------------------------------------------------
 //-------             END OF SCRIPTED PART!             -------
 //-------------------------------------------------------------\" > ${a3instdir}/a3master/cfg/a3common.cfg"
